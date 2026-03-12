@@ -1,0 +1,21 @@
+{
+  "name": "Hero Battle - Edition NARUTO",
+  "short_name": "Hero Battle - Edition NARUTO",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#1f1f1f",
+  "theme_color": "#ff9900",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/battle.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/battle.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

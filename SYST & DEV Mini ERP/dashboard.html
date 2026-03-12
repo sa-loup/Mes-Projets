@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - IT Services Management</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+
+<body>
+    <div class="main-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-code"></i>
+                    <span>IT Services Pro</span>
+                </div>
+            </div>
+
+            <nav class="sidebar-menu">
+                <a href="dashboard.html" class="menu-item active">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="clients.html" class="menu-item">
+                    <i class="fas fa-users"></i>
+                    <span>Clients & Fournisseurs</span>
+                </a>
+                <a href="projects.html" class="menu-item">
+                    <i class="fas fa-project-diagram"></i>
+                    <span>Projets</span>
+                </a>
+                <a href="services.html" class="menu-item">
+                    <i class="fas fa-cogs"></i>
+                    <span>Services</span>
+                </a>
+                <a href="tickets.html" class="menu-item">
+                    <i class="fas fa-ticket-alt"></i>
+                    <span>Tickets</span>
+                    <span class="badge badge-danger" id="ticket-badge">0</span>
+                </a>
+                <a href="tasks.html" class="menu-item">
+                    <i class="fas fa-tasks"></i>
+                    <span>Tâches</span>
+                </a>
+                <a href="billing.html" class="menu-item">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                    <span>Facturation</span>
+                </a>
+                <a href="purchases.html" class="menu-item">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Achats/Ventes</span>
+                </a>
+
+                <div class="menu-divider"></div>
+
+                <a href="#" class="menu-item" id="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Déconnexion</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <div class="header-left">
+                    <button class="menu-toggle" id="menu-toggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <div class="breadcrumb">
+                        <span>Dashboard</span>
+                    </div>
+                </div>
+
+                <div class="header-right">
+                    <div class="user-info">
+                        <div class="avatar" id="user-avatar">JD</div>
+                        <div class="user-details">
+                            <span class="user-name" id="user-name">John Doe</span>
+                            <span class="user-role" id="user-role">Admin</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dashboard Content -->
+            <div class="page-header">
+                <h1 class="page-title">Tableau de Bord</h1>
+                <p class="page-subtitle">Aperçu général de votre activité</p>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="stats-grid" id="stats-grid">
+                <!-- Les cartes de statistiques seront générées par JavaScript -->
+            </div>
+
+            <!-- Charts Grid -->
+            <div class="charts-grid">
+                <div class="chart-card">
+                    <div class="card-header">
+                        <h3 class="card-title">Projets par Statut</h3>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="projectsChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="chart-card">
+                    <div class="card-header">
+                        <h3 class="card-title">Revenus Mensuels</h3>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="revenueChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="chart-card">
+                    <div class="card-header">
+                        <h3 class="card-title">Tickets par Priorité</h3>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="ticketsChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="chart-card">
+                    <div class="card-header">
+                        <h3 class="card-title">Activité Récente</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="activity-list" id="activity-list">
+                            <!-- Activité récente -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Items -->
+            <div class="recent-items">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Projets Récents</h3>
+                        <a href="projects.html" class="btn btn-secondary">Voir tout</a>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-container">
+                            <table id="recent-projects">
+                                <thead>
+                                    <tr>
+                                        <th>Nom</th>
+                                        <th>Client</th>
+                                        <th>Statut</th>
+                                        <th>Deadline</th>
+                                        <th>Progression</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Projets récents -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Dans le <head> de vos fichiers HTML -->
+    <script>
+        // Bloque les tentatives de chargement de polices manquantes
+        document.addEventListener('DOMContentLoaded', function () {
+            const originalInsertRule = CSSStyleSheet.prototype.insertRule;
+            CSSStyleSheet.prototype.insertRule = function (rule, index) {
+                if (rule.includes('sf-pro-text') || rule.includes('.woff2')) {
+                    console.log('Blocked font rule:', rule.substring(0, 100));
+                    return index || 0;
+                }
+                return originalInsertRule.call(this, rule, index);
+            };
+        });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="js/google-sheets.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/dashboard.js"></script>
+    <script src="js/utils.js"></script>
+</body>
+
+</html>

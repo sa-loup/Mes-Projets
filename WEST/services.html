@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nos Services | WEST CONSTRUCTION BENOUR WELID</title>
+    <!-- Preconnect to external domains for performance -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://images.unsplash.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="index.css">
+    <style>
+        .service-page-card {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 6rem;
+            align-items: center;
+            margin-bottom: 10rem;
+        }
+
+        .service-page-card:nth-child(even) {
+            direction: rtl;
+        }
+
+        .service-page-card:nth-child(even) .service-text {
+            direction: ltr;
+        }
+
+        .service-image img {
+            border-radius: 4px;
+            box-shadow: var(--shadow-md);
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+        }
+
+        @media (max-width: 991px) {
+            .service-page-card {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+                margin-bottom: 6rem;
+            }
+
+            .service-page-card:nth-child(even) {
+                direction: ltr;
+            }
+
+            .service-image img {
+                height: 350px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="header">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <span class="name">WEST CONSTRUCTION</span>
+                <span class="sub">BENOUR WELID</span>
+            </a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html">Accueil</a></li>
+                    <li><a href="about.html">Entreprise</a></li>
+                    <li><a href="services.html" class="active">Services</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+            <button class="hamburger" aria-label="Ouvrir le menu">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <section class="hero"
+        style="height: 50vh; background-image: url('https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&q=80&w=2000');">
+        <div class="container">
+            <div class="hero-content reveal">
+                <h1>Nos Expertises</h1>
+                <p class="subtitle">Des compétences pluridisciplinaires au service de vos défis d'infrastructure.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="services-detail">
+        <div class="container">
+
+            <div class="service-page-card reveal">
+                <div class="service-text">
+                    <span
+                        style="color: var(--primary); font-weight: 800; letter-spacing: 2px; font-size: 0.8rem;">ENGINEERING</span>
+                    <h2 style="margin-top: 1rem; margin-bottom: 2rem;">Génie civil et construction métallique</h2>
+                    <p style="color: #666; font-size: 1.1rem;">Conception et réalisation de structures complexes
+                        répondant aux exigences normatives les plus sévères.</p>
+                    <ul
+                        style="margin-top: 2rem; border-left: 2px solid var(--primary); padding-left: 2rem; color: #777;">
+                        <li style="margin-bottom: 0.5rem;">Ouvrages d'art & Ponts</li>
+                        <li style="margin-bottom: 0.5rem;">Charpentes industrielles</li>
+                        <li>Gros œuvre & Fondations</li>
+                    </ul>
+                </div>
+                <div class="service-image">
+                    <img src="https://images.unsplash.com/photo-1504307651254-35682f94a1d8?auto=format&fit=crop&q=80&w=1000"
+                        alt="Service de Génie Civil et Construction" width="1000" height="667" loading="lazy">
+                </div>
+            </div>
+
+            <div class="service-page-card reveal">
+                <div class="service-text">
+                    <span
+                        style="color: var(--primary); font-weight: 800; letter-spacing: 2px; font-size: 0.8rem;">INFRASTRUCTURE</span>
+                    <h2 style="margin-top: 1rem; margin-bottom: 2rem;">Travaux publics & Terrassement</h2>
+                    <p style="color: #666; font-size: 1.1rem;">Maîtrise totale des plateformes industrielles et des
+                        terrassements en grande masse avec une logistique optimisée.</p>
+                </div>
+                <div class="service-image">
+                    <img src="https://images.unsplash.com/photo-1531834685032-c34bf0d84c77?auto=format&fit=crop&q=80&w=1000"
+                        alt="Service de Travaux Publics" width="1000" height="667" loading="lazy">
+                </div>
+            </div>
+
+            <div class="service-page-card reveal">
+                <div class="service-text">
+                    <span
+                        style="color: var(--primary); font-weight: 800; letter-spacing: 2px; font-size: 0.8rem;">RESEAUX</span>
+                    <h2 style="margin-top: 1rem; margin-bottom: 2rem;">Travaux hydrauliques</h2>
+                    <p style="color: #666; font-size: 1.1rem;">Installation de conduites d'assainissement et adduction
+                        d'eau (AEP) avec des matériaux haute performance.</p>
+                </div>
+                <div class="service-image">
+                    <img src="https://images.unsplash.com/photo-1542013936693-884638332954?auto=format&fit=crop&q=80&w=1000"
+                        alt="Service Hydraulique" width="1000" height="667" loading="lazy">
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- References Section -->
+    <section class="references-section" aria-label="Nos références">
+        <div class="container">
+            <div class="section-title reveal" style="margin-bottom: 4rem;">
+                <h2 style="font-size: 1.5rem;">Ils nous font confiance</h2>
+            </div>
+            <div class="logo-slider">
+                <div class="slide"><img src="ADFC-scaled.png" alt="Logo ADFC" width="280" height="90" loading="lazy">
+                </div>
+                <div class="slide"><img src="ENAC.jpg" alt="Logo ENAC" width="280" height="90" loading="lazy"></div>
+                <div class="slide"><img src="Logo-STAGMA.png" alt="Logo STAGMA" width="280" height="90" loading="lazy">
+                </div>
+                <div class="slide"><img src="Logo_of_Halliburton_(red).png" alt="Logo Halliburton" width="280"
+                        height="90" loading="lazy"></div>
+                <div class="slide"><img src="Petrojet-logo.png" alt="Logo Petrojet" width="280" height="90"
+                        loading="lazy"></div>
+                <div class="slide"><img src="ansaldoenergia.png" alt="Logo Ansaldo Energia" width="280" height="90"
+                        loading="lazy"></div>
+                <div class="slide"><img src="nps.png" alt="Logo NPS" width="280" height="90" loading="lazy"></div>
+                <div class="slide"><img src="schlumberger-logo-png-transparent.png" alt="Logo Schlumberger" width="280"
+                        height="90" loading="lazy"></div>
+                <div class="slide"><img src="BONATI.png" alt="Logo BONATI" width="280" height="90" loading="lazy"></div>
+                <!-- Duplicate for loop -->
+                <div class="slide"><img src="ADFC-scaled.png" alt="Logo ADFC" width="280" height="90" loading="lazy"
+                        aria-hidden="true"></div>
+                <div class="slide"><img src="ENAC.jpg" alt="Logo ENAC" width="280" height="90" loading="lazy"
+                        aria-hidden="true"></div>
+                <div class="slide"><img src="Logo-STAGMA.png" alt="Logo STAGMA" width="280" height="90" loading="lazy"
+                        aria-hidden="true"></div>
+                <div class="slide"><img src="Logo_of_Halliburton_(red).png" alt="Logo Halliburton" width="280"
+                        height="90" loading="lazy" aria-hidden="true"></div>
+                <div class="slide"><img src="Petrojet-logo.png" alt="Logo Petrojet" width="280" height="90"
+                        loading="lazy" aria-hidden="true"></div>
+                <div class="slide"><img src="ansaldoenergia.png" alt="Logo Ansaldo Energia" width="280" height="90"
+                        loading="lazy" aria-hidden="true"></div>
+                <div class="slide"><img src="nps.png" alt="Logo NPS" width="280" height="90" loading="lazy"
+                        aria-hidden="true"></div>
+                <div class="slide"><img src="schlumberger-logo-png-transparent.png" alt="Logo Schlumberger" width="280"
+                        height="90" loading="lazy" aria-hidden="true"></div>
+                <div class="slide"><img src="BONATI.png" alt="Logo BONATI" width="280" height="90" loading="lazy"
+                        aria-hidden="true"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Premium Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-info">
+                    <a href="index.html" class="logo">
+                        <span class="name">WEST CONSTRUCTION</span>
+                        <span class="sub">BENOUR WELID</span>
+                    </a>
+                    <p>Excellence constructive au service du développement industriel et urbain en Algérie.</p>
+                </div>
+                <div>
+                    <h4>NAVIGATION</h4>
+                    <ul style="line-height: 2.5;">
+                        <li><a href="index.html">Accueil</a></li>
+                        <li><a href="about.html">Notre Entreprise</a></li>
+                        <li><a href="services.html">Expertises</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>SERVICES</h4>
+                    <ul style="line-height: 2.5; color: #777;">
+                        <li>Génie Civil</li>
+                        <li>Travaux Publics</li>
+                        <li>Hydraulique</li>
+                        <li>Maintenance</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>CONTACT</h4>
+                    <ul style="line-height: 2; color: #777;">
+                        <li><i class="fas fa-phone" style="color: var(--primary); margin-right: 10px;"
+                                aria-hidden="true"></i> +213 661 46
+                            80 88</li>
+                        <li><i class="fas fa-envelope" style="color: var(--primary); margin-right: 10px;"
+                                aria-hidden="true"></i>
+                            contact@westconstruction.dz</li>
+                        <li><i class="fas fa-location-dot" style="color: var(--primary); margin-right: 10px;"
+                                aria-hidden="true"></i>
+                            Alger, Algérie</li>
+                    </ul>
+                </div>
+            </div>
+            <div
+                style="border-top: 1px solid rgba(255,255,255,0.05); padding-top: 3rem; text-align: center; color: #555; font-size: 0.8rem;">
+                <p>&copy; 2026 WEST CONSTRUCTION BENOUR WELID. ALL RIGHTS RESERVED.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="main.js"></script>
+</body>
+
+</html>

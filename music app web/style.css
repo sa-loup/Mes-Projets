@@ -1,0 +1,278 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: Copperplate, "Copperplate Gothic Light", fantasy; font-size: 24px; font-style: normal; font-variant: normal; font-weight: 700; line-height: 26.4px;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #5c5c5c, #951d1d, #5c5c5c);
+    color: rgb(0, 0, 0);
+    padding: 2rem 1rem;
+  }
+  
+  .container {
+    max-width: 64rem;
+    margin: 0 auto;
+  }
+  
+  h1 {
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+  
+  .player-card {
+    background: linear-gradient(135deg, #5c5c5c, #951d1d, #a5000063);
+    backdrop-filter: blur(12px);
+    border-radius: 1rem;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 10px 10px 10px 0px #030303;
+  }
+  
+  @media (min-width: 768px) {
+    .player-card {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+  }
+  
+  .cover-art {
+    width: 16rem;
+    height: 16rem;
+    border-radius: 0.5rem;
+    object-fit: cover;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+    box-shadow: 10px 10px 10px 0px #030303;
+  }
+  
+  .song-info {
+    flex: 1;
+  }
+  
+  h2 {
+    font-size: 1.875rem;
+    margin-bottom: 0.5rem;
+    margin-top: 1rem;
+  }
+  
+  @media (min-width: 768px) {
+    h2 {
+      margin-top: 0;
+    }
+  }
+  
+  .song-info p {
+    font-size: 1.25rem;
+    color: rgba(255, 255, 255, 0.76);
+    margin-bottom: 2rem;
+  }
+  
+  .controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+  }
+  
+  .control-btn {
+    background: none;
+    border: none;
+    color: rgb(5, 1, 1);
+    cursor: pointer;
+    padding: 0.75rem;
+    border-radius: 9999px;
+    box-shadow: 10px 10px 10px 0px #030303;
+    transition: background-color 0.2s;
+  }
+  
+  .control-btn:hover {
+    background: linear-gradient(135deg, #030303, #7e0000, #a5000063);
+  }
+  
+  .play-btn {
+    background: linear-gradient(135deg, #030303, #7e0000, #a5000063);
+    padding: 1rem;
+    box-shadow: 10px 10px 10px 0px #030303;
+  }
+  
+  .play-btn:hover {
+    background: linear-gradient(135deg, #a5000063, #7e0000, #00000063);
+  }
+  
+  .playlist {
+    background: linear-gradient(135deg, #646363, #951d1d, #a5000063);
+    backdrop-filter: blur(8px);
+    border-radius: 0.75rem;
+    box-shadow: 10px 10px 10px 0px #030303;
+  }
+  
+  .playlist h3 {
+    font-size: 1.25rem;
+    padding: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .song-list {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    overflow-y: scroll;
+    height: 400px;
+  }
+  .song-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.song-list::-webkit-scrollbar-track {
+  background: #2a2a2a;
+  border-radius: 4px;
+}
+
+.song-list::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, #d62b2b, #5c2c2c); /* Rouge dégradé */
+  border-radius: 4px;
+}
+
+.song-list::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(to bottom, #d46d6d, #6f2e2e);
+}
+  
+  .song-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    border-radius: 20px;
+  }
+  
+  .song-item:hover {
+    background: linear-gradient(135deg, #7e0000, #7e0000, #00000063);
+    box-shadow: 10px 10px 10px 0px #030303;
+  }
+  
+  .song-item.active {
+    background: linear-gradient(135deg, #7e0000, #7e0000, #00000063);
+    box-shadow: 10px 10px 10px 0px #030303;
+  }
+  
+  .song-item img {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 0.25rem;
+    object-fit: cover;
+  }
+  
+  .song-item-info {
+    flex: 1;
+  }
+  
+  .song-item-info h4 {
+    font-weight: 600;
+  }
+  
+  .song-item-info p {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.8);
+  }
+  
+  .playing-indicator {
+    width: 1rem;
+    height: 1rem;
+    border-radius: 9999px;
+    background-color: #29f800;
+    animation: pulse 2s infinite;
+  }
+  
+  @keyframes pulse {
+    0% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.5;
+      transform: scale(0.95);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  
+  .hidden {
+    display: none;
+  }
+  
+  /* Progress bar styles */
+.progress-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  margin-top: 1.5rem;
+}
+
+.progress-bar {
+  flex: 1;
+  height: 10px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.progress {
+  height: 100%;
+  background: linear-gradient(to right, #d62b2b, #000000);
+  border-radius: 3px;
+  width: 0%;
+  transition: width 0.1s linear;
+}
+
+#currentTime,
+#duration {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.8);
+  min-width: 40px;
+  text-align: center;
+}
+
+.karaoke-words {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 1rem;
+  font-size: 1.25rem;
+  color: white;
+}
+
+.karaoke-words span {
+  opacity: 0.4;
+  transition: opacity 0.2s;
+}
+
+.karaoke-words .active {
+  opacity: 1;
+  color: #ff5555;
+  font-weight: bold;
+}
+
+#visualizer {
+  width: 35%;
+  height: 65px;
+  background: linear-gradient(to right, #d62b2b, #000000);
+  border-radius: 10px;
+  margin-top: 1rem;
+  margin-left: 1.5rem;
+  display: block;
+  box-shadow: 10px 10px 10px 0px #030303;
+}
+.playlist h3 {
+
+  box-shadow: 10px 10px 10px 0px #030303;
+}

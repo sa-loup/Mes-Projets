@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Music+</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="shortcut icon" href="/Black and Red Record Studio Music Logo (1).jpg" type="image/x-icon">
+
+
+</head>
+<body>
+  <div class="container">
+    <h1>Ma Playlist</h1>
+          <div class="karaoke-container hidden">
+  <h3>Mode Karaoké</h3>
+  <div id="lyricsDisplay">
+    <div class="current-line"></div>
+    <div class="next-line"></div>
+  </div>
+</div>
+    <!-- Current Song Display -->
+    <div class="player-card">
+      <img id="cover" src="https://www.booska-p.com/wp-content/uploads/2024/12/SCH.jpg" alt="Album Cover" class="cover-art">
+      <div class="song-info">
+        
+        <h2 id="title">Intro - Ego Sum</h2>
+        <p id="artist">SCH</p>
+         <audio id="audio" class="hidden" src="Intro - Ego Sum.m4a"></audio>
+    
+         <!-- controls -->
+        <div class="controls">
+          
+          <button id="prevBtn" class="control-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="19 20 9 12 19 4 19 20"></polygon><line x1="5" y1="19" x2="5" y2="5"></line></svg>
+          </button>
+          <button id="playBtn" class="control-btn play-btn">
+            <svg id="playIcon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+            <svg id="pauseIcon" class="hidden" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
+          </button>
+          <button id="nextBtn" class="control-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 4 15 12 5 20 5 4"></polygon><line x1="19" y1="5" x2="19" y2="19"></line></svg>
+          </button>
+          <button id="muteBtn" class="control-btn">
+            <svg id="volumeIcon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path></svg>
+            <svg id="muteIcon" class="hidden" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+          </button>
+          <canvas id="visualizer" width="600" height="100"></canvas>
+        </div>
+        
+        <!-- Ajoutez ceci après la div .controls -->
+<div class="progress-container">
+  <span id="currentTime">0:00</span>
+  <div class="progress-bar">
+    <div id="progress" class="progress"></div>
+  </div>
+  <span id="duration">0:00</span>
+</div>
+
+      </div>
+    </div>
+    
+
+    <!-- Playlist -->
+    <div class="playlist">
+      <h3>Playlist</h3>
+
+      <!-- SONG 1 -->
+      <div id="songList" class="song-list">
+        <div class="song-item active" data-index="0" data-audio="Le coup d’avance.m4a" data-cover="https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/ff/ec/19/ffec1974-6386-4edd-57ad-fb588739e232/190296752070.jpg/600x600bf-60.jpg">
+          <img src="https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/ff/ec/19/ffec1974-6386-4edd-57ad-fb588739e232/190296752070.jpg/600x600bf-60.jpg" alt="Le coup d’avance">
+          <div class="song-item-info">
+            <h4>Le coup d’avance</h4>
+            <p>SCH</p>
+          </div>
+        </div>
+        
+        <!-- SONG 2 -->
+        <div class="song-item" data-index="1" data-audio="Raisons.m4a"data-cover="https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/ff/ec/19/ffec1974-6386-4edd-57ad-fb588739e232/190296752070.jpg/600x600bf-60.jpg">
+          <img src="https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/ff/ec/19/ffec1974-6386-4edd-57ad-fb588739e232/190296752070.jpg/600x600bf-60.jpg" alt="Raisons">
+          <div class="song-item-info">
+            <h4>Raisons</h4>
+            <p>SCH</p>
+          </div>
+        </div>
+
+         <!-- SONG 3 -->
+        <div class="song-item" data-index="2" data-audio="J'attends.m4a" data-cover="https://i.scdn.co/image/ab67616d0000b27310948efed11dc2f6f4888708">
+          <img src="https://i.scdn.co/image/ab67616d0000b27310948efed11dc2f6f4888708" alt="J'attends">
+          <div class="song-item-info">
+            <h4>J'attends</h4>
+            <p>SCH</p>
+          </div>
+        </div>
+
+        <!-- SONG 4 -->
+        <div class="song-item" data-index="3" data-audio="Comme Avant.m4a" data-cover="https://images.genius.com/83b6c98680d38bde1571f6b4093244b5.1000x1000x1.jpg">
+          <img src="https://images.genius.com/83b6c98680d38bde1571f6b4093244b5.1000x1000x1.jpg" alt="Comme Avant">
+          <div class="song-item-info">
+            <h4>Comme Avant</h4>
+            <p>SCH</p>
+          </div>
+        </div>
+
+        <!-- SONG 5 -->
+        <div class="song-item" data-index="4" data-audio="QONEM.m4a" data-cover="https://i.scdn.co/image/ab67616d0000b273491e586b82711d3023977d69">
+          <img src="https://i.scdn.co/image/ab67616d0000b273491e586b82711d3023977d69" alt="Quand on était momes">
+          <div class="song-item-info">
+            <h4>Quand on était momes</h4>
+            <p>SCH</p>
+          </div>
+        </div>
+
+         <!-- SONG 6 -->
+        <div class="song-item" data-index="5" data-audio="J'reviens de loin.m4a" data-cover="https://i.scdn.co/image/ab67616d00001e02dced4ac7bdab3548e2730d66">
+          <img src="https://i.scdn.co/image/ab67616d00001e02dced4ac7bdab3548e2730d66" alt="J'reviens de loins">
+          <div class="song-item-info">
+            <h4>J'reviens de loin</h4>
+            <p>SCH</p>
+          </div>
+        </div>
+        
+        <!-- SONG 7 -->
+        <div class="song-item" data-index="6" data-audio="SCH - Cannelloni.m4a" data-cover="https://www.chartsinfrance.net/style/breves/4/photo_1715938752.jpg">
+          <img src="https://www.chartsinfrance.net/style/breves/4/photo_1715938752.jpg" alt="Cannelloni">
+          <div class="song-item-info">
+            <h4>Cannelloni</h4>
+            <p>SCH</p>
+          </div>
+        </div>
+<!-- SONG 8 -->
+        <div class="song-item" data-index="7" data-audio="/Sofiane - Nouveaux Parrains Ft. Soolking [Clip Officiel] (1).mp3" data-cover="https://i.ytimg.com/vi/XZ6q-w7XXQE/maxresdefault.jpg">
+          <img src="https://i.ytimg.com/vi/XZ6q-w7XXQE/maxresdefault.jpg" alt="Nouveaux Parrains">
+          <div class="song-item-info">
+            <h4>Nouveaux Parrains Ft Soolking</h4>
+            <p>Sofiane</p>
+          </div>
+        </div>
+        <!-- SONG 9 -->
+        <div class="song-item" data-index="8" data-audio="/Soolking feat Sofiane - Tichy [Clip Officiel] Prod by AriBeatz.mp3" data-cover="https://i.ytimg.com/vi/2W9-gFU5LK8/maxresdefault.jpg">
+          <img src="https://i.ytimg.com/vi/2W9-gFU5LK8/maxresdefault.jpg" alt="Tichy">
+          <div class="song-item-info">
+            <h4>Tichy ft Sofiane</h4>
+            <p>Soolking</p>
+          </div>
+        </div>
+        <!-- SONG 10 -->
+        <div class="song-item" data-index="9" data-audio="/Sofiane - Case départ [Clip Officiel].mp3" data-cover="https://cd1.rap2france.com/public/medias/news/11983/660x330/mdpi/sofiane-devoile-le-magnifique-clip-de-case-depart-clip-officiel-1622097892.jpg">
+          <img src="https://cd1.rap2france.com/public/medias/news/11983/660x330/mdpi/sofiane-devoile-le-magnifique-clip-de-case-depart-clip-officiel-1622097892.jpg" alt="Case départ">
+          <div class="song-item-info">
+            <h4>Case départ</h4>
+            <p>Sofiane</p>
+          </div>
+        </div>
+        <!-- SONG 11 -->
+        <div class="song-item" data-index="10" data-audio="/PNL - Naha.mp3" data-cover="https://i1.sndcdn.com/artworks-BKgBzIdcCiHuCB14-EMEDNA-t500x500.jpg">
+          <img src="https://i1.sndcdn.com/artworks-BKgBzIdcCiHuCB14-EMEDNA-t500x500.jpg" alt="Naha">
+          <div class="song-item-info">
+            <h4>Naha</h4>
+            <p>PNL</p>
+          </div>
+        </div>
+
+
+
+
+
+
+
+        <!-- fin -->
+      </div>
+    </div>
+  </div>
+  <script src="main.js"></script>
+</body>
+</html>

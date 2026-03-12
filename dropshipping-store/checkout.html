@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paiement</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <div class="logo">MonShop</div>
+        <nav>
+            <ul>
+                <li><a href="../index.html">Accueil</a></li>
+                <li><a href="../products.html">Produits</a></li>
+                <li><a href="cart.html">Panier (<span id="cart-count">0</span>)</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="checkout-page">
+        <h1>Finaliser la commande</h1>
+        
+        <div class="checkout-container">
+            <form id="checkout-form" class="checkout-form">
+                <h2>Informations de livraison</h2>
+                
+                <div class="form-group">
+                    <label for="first-name">Prénom*</label>
+                    <input type="text" id="first-name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="last-name">Nom*</label>
+                    <input type="text" id="last-name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email*</label>
+                    <input type="email" id="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">Téléphone</label>
+                    <input type="tel" id="phone">
+                </div>
+                
+                <div class="form-group">
+                    <label for="address">Adresse*</label>
+                    <input type="text" id="address" required>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="city">Ville*</label>
+                        <input type="text" id="city" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="zip">Code postal*</label>
+                        <input type="text" id="zip" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="country">Pays*</label>
+                    <select id="country" required>
+                        <option value="">Sélectionnez...</option>
+                        <option value="FR">France</option>
+                        <option value="BE">Belgique</option>
+                        <option value="CH">Suisse</option>
+                        <option value="CA">Canada</option>
+                    </select>
+                </div>
+                
+                <h2>Méthode de paiement</h2>
+                
+                <div class="payment-methods">
+                    <div class="payment-method">
+                        <input type="radio" id="credit-card" name="payment" value="credit-card" checked>
+                        <label for="credit-card">Carte de crédit</label>
+                    </div>
+                    
+                    <div class="payment-method">
+                        <input type="radio" id="paypal" name="payment" value="paypal">
+                        <label for="paypal">PayPal</label>
+                    </div>
+                </div>
+                
+                <div class="credit-card-info" id="credit-card-info">
+                    <div class="form-group">
+                        <label for="card-number">Numéro de carte*</label>
+                        <input type="text" id="card-number" placeholder="1234 5678 9012 3456">
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="card-expiry">Date d'expiration*</label>
+                            <input type="text" id="card-expiry" placeholder="MM/AA">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="card-cvc">CVC*</label>
+                            <input type="text" id="card-cvc" placeholder="123">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="card-name">Nom sur la carte*</label>
+                        <input type="text" id="card-name">
+                    </div>
+                </div>
+                
+                <div class="paypal-info" id="paypal-info" style="display: none;">
+                    <p>Vous serez redirigé vers PayPal pour compléter votre paiement.</p>
+                </div>
+                
+                <button type="submit" class="btn submit-order">Confirmer la commande</button>
+            </form>
+            
+            <div class="order-summary">
+                <h2>Résumé de la commande</h2>
+                
+                <div class="order-items" id="order-items">
+                    <!-- Articles chargés dynamiquement -->
+                </div>
+                
+                <div class="order-totals">
+                    <div class="order-row">
+                        <span>Sous-total</span>
+                        <span id="order-subtotal">$0.00</span>
+                    </div>
+                    <div class="order-row">
+                        <span>Livraison</span>
+                        <span id="order-shipping">$5.99</span>
+                    </div>
+                    <div class="order-row total">
+                        <span>Total</span>
+                        <span id="order-total">$5.99</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2023 MonShop Dropshipping</p>
+    </footer>
+
+    <script src="../js/checkout.js"></script>
+</body>
+</html>

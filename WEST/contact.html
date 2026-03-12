@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact | WEST CONSTRUCTION BENOUR WELID</title>
+    <!-- Preconnect to external domains for performance -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://images.unsplash.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="index.css">
+    <style>
+        .contact-wrapper {
+            display: grid;
+            grid-template-columns: 0.8fr 1.2fr;
+            gap: 8rem;
+        }
+
+        .contact-info-box {
+            background-color: var(--secondary);
+            color: white;
+            padding: 5rem 4rem;
+            border-radius: 4px;
+        }
+
+        .info-item {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .info-item i {
+            font-size: 1.8rem;
+            color: var(--primary);
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            color: var(--secondary);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 1.2rem;
+            border: 1px solid #eee;
+            background: #fdfdfd;
+            border-radius: 4px;
+            font-family: inherit;
+            transition: var(--transition-fast);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: white;
+            box-shadow: var(--shadow-sm);
+        }
+
+        textarea.form-control {
+            height: 180px;
+        }
+
+        @media (max-width: 991px) {
+            .contact-wrapper {
+                grid-template-columns: 1fr;
+                gap: 4rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="header">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <span class="name">WEST CONSTRUCTION</span>
+                <span class="sub">BENOUR WELID</span>
+            </a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html">Accueil</a></li>
+                    <li><a href="about.html">Entreprise</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="contact.html" class="active">Contact</a></li>
+                </ul>
+            </nav>
+            <button class="hamburger" aria-label="Ouvrir le menu">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <section class="hero"
+        style="height: 50vh; background-image: url('https://images.unsplash.com/photo-1516387085023-fa0048e48350?auto=format&fit=crop&q=80&w=2000');">
+        <div class="container">
+            <div class="hero-content reveal">
+                <h1>Contactez-nous</h1>
+                <p class="subtitle">Collaborons pour bâtir vos projets d'infrastructure les plus critiques.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact-section">
+        <div class="container">
+            <div class="contact-wrapper">
+
+                <div class="contact-info-box reveal">
+                    <h3 style="margin-bottom: 4rem; color: var(--primary);">Coordonnées</h3>
+
+                    <div class="info-item">
+                        <i class="fas fa-phone-alt"></i>
+                        <div>
+                            <h4 style="color: white; margin-bottom: 0.5rem; font-size: 0.8rem; opacity: 0.5;">TÉLÉPHONE
+                            </h4>
+                            <p style="font-size: 1.2rem; font-weight: 600;">+213 661 46 80 88</p>
+                        </div>
+                    </div>
+
+                    <div class="info-item">
+                        <i class="fas fa-envelope" aria-hidden="true"></i>
+                        <div>
+                            <h4 style="color: white; margin-bottom: 0.5rem; font-size: 0.8rem; opacity: 0.5;">DIRECT
+                                EMAIL</h4>
+                            <p style="font-weight: 500;">west.b@hotmail.com</p>
+                            <p style="font-weight: 500;">contact@westconstruction.dz</p>
+                        </div>
+                    </div>
+
+                    <div class="info-item">
+                        <i class="fas fa-location-dot" aria-hidden="true"></i>
+                        <div>
+                            <h4 style="color: white; margin-bottom: 0.5rem; font-size: 0.8rem; opacity: 0.5;">SIÈGE</h4>
+                            <p style="font-weight: 500;">Alger, Algérie</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contact-form-container reveal">
+                    <h2 style="margin-bottom: 4rem; text-align: left;">Envoyer une demande</h2>
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Nom Complet</label>
+                            <input type="text" id="name" class="form-control" placeholder="Votre nom" required>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                            <div class="form-group">
+                                <label for="email">E-mail</label>
+                                <input type="email" id="email" class="form-control" placeholder="Email@contact.com"
+                                    required>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Téléphone</label>
+                                <input type="tel" id="phone" class="form-control" placeholder="+213 ...">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Votre Message</label>
+                            <textarea id="message" class="form-control"
+                                placeholder="Décrivez votre projet ou votre demande..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: auto; padding: 1.2rem 4rem;">Envoyer
+                            ma demande</button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Map Section -->
+    <section class="map-section reveal" style="padding: 0;">
+        <iframe title="Carte Google Maps - West Construction"
+            src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d4026.8738259527768!2d6.050383376103765!3d31.694743438505377!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMzHCsDQxJzQxLjEiTiA2wrAwMycxMC43IkU!5e1!3m2!1sfr!2sdz!4v1773134470043!5m2!1sfr!2sdz"
+            width="100%" height="550" style="border:0; display: block;" allowfullscreen="" loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+    </section>
+
+    <!-- References Section -->
+    <section class="references-section" aria-label="Nos références">
+        <div class="container">
+            <div class="section-title reveal" style="margin-bottom: 4rem;">
+                <h2 style="font-size: 1.5rem;">Ils nous font confiance</h2>
+            </div>
+            <div class="logo-slider">
+                <div class="slide"><img src="ADFC-scaled.png" alt="Logo ADFC" width="280" height="90" loading="lazy">
+                </div>
+                <div class="slide"><img src="ENAC.jpg" alt="Logo ENAC" width="280" height="90" loading="lazy"></div>
+                <div class="slide"><img src="Logo-STAGMA.png" alt="Logo STAGMA" width="280" height="90" loading="lazy">
+                </div>
+                <div class="slide"><img src="Logo_of_Halliburton_(red).png" alt="Logo Halliburton" width="280"
+                        height="90" loading="lazy"></div>
+                <div class="slide"><img src="Petrojet-logo.png" alt="Logo Petrojet" width="280" height="90"
+                        loading="lazy"></div>
+                <div class="slide"><img src="ansaldoenergia.png" alt="Logo Ansaldo Energia" width="280" height="90"
+                        loading="lazy"></div>
+                <div class="slide"><img src="nps.png" alt="Logo NPS" width="280" height="90" loading="lazy"></div>
+                <div class="slide"><img src="schlumberger-logo-png-transparent.png" alt="Logo Schlumberger" width="280"
+                        height="90" loading="lazy"></div>
+                <div class="slide"><img src="BONATI.png" alt="Logo BONATI" width="280" height="90" loading="lazy"></div>
+                <!-- Duplicate for loop -->
+                <div class="slide"><img src="ADFC-scaled.png" alt="Logo ADFC" width="280" height="90" loading="lazy"
+                        aria-hidden="true"></div>
+                <div class="slide"><img src="ENAC.jpg" alt="Logo ENAC" width="280" height="90" loading="lazy"
+                        aria-hidden="true"></div>
+                <div class="slide"><img src="Logo-STAGMA.png" alt="Logo STAGMA" width="280" height="90" loading="lazy"
+                        aria-hidden="true"></div>
+                <div class="slide"><img src="Logo_of_Halliburton_(red).png" alt="Logo Halliburton" width="280"
+                        height="90" loading="lazy" aria-hidden="true"></div>
+                <div class="slide"><img src="Petrojet-logo.png" alt="Logo Petrojet" width="280" height="90"
+                        loading="lazy" aria-hidden="true"></div>
+                <div class="slide"><img src="ansaldoenergia.png" alt="Logo Ansaldo Energia" width="280" height="90"
+                        loading="lazy" aria-hidden="true"></div>
+                <div class="slide"><img src="nps.png" alt="Logo NPS" width="280" height="90" loading="lazy"
+                        aria-hidden="true"></div>
+                <div class="slide"><img src="schlumberger-logo-png-transparent.png" alt="Logo Schlumberger" width="280"
+                        height="90" loading="lazy" aria-hidden="true"></div>
+                <div class="slide"><img src="BONATI.png" alt="Logo BONATI" width="280" height="90" loading="lazy"
+                        aria-hidden="true"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Premium Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-info">
+                    <a href="index.html" class="logo">
+                        <span class="name">WEST CONSTRUCTION</span>
+                        <span class="sub">BENOUR WELID</span>
+                    </a>
+                    <p>Excellence constructive au service du développement industriel et urbain en Algérie.</p>
+                </div>
+                <div>
+                    <h4>NAVIGATION</h4>
+                    <ul style="line-height: 2.5;">
+                        <li><a href="index.html">Accueil</a></li>
+                        <li><a href="about.html">Notre Entreprise</a></li>
+                        <li><a href="services.html">Expertises</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>SERVICES</h4>
+                    <ul style="line-height: 2.5; color: #777;">
+                        <li>Génie Civil</li>
+                        <li>Travaux Publics</li>
+                        <li>Hydraulique</li>
+                        <li>Maintenance</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>CONTACT</h4>
+                    <ul style="line-height: 2; color: #777;">
+                        <li><i class="fas fa-phone" style="color: var(--primary); margin-right: 10px;"
+                                aria-hidden="true"></i> +213 661 46
+                            80 88</li>
+                        <li><i class="fas fa-envelope" style="color: var(--primary); margin-right: 10px;"
+                                aria-hidden="true"></i>
+                            contact@westconstruction.dz</li>
+                        <li><i class="fas fa-location-dot" style="color: var(--primary); margin-right: 10px;"
+                                aria-hidden="true"></i>
+                            Alger, Algérie</li>
+                    </ul>
+                </div>
+            </div>
+            <div
+                style="border-top: 1px solid rgba(255,255,255,0.05); padding-top: 3rem; text-align: center; color: #555; font-size: 0.8rem;">
+                <p>&copy; 2026 WEST CONSTRUCTION BENOUR WELID. ALL RIGHTS RESERVED.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="main.js"></script>
+</body>
+
+</html>

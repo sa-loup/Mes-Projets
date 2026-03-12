@@ -1,0 +1,22 @@
+/* src/components/Navbar.css */
+
+  .navbar__avatar {
+    width: 30px;
+    object-fit: contain;
+  }
+  .navbar {
+    position: fixed;  /* Fixe la navbar en haut */
+    top: 0;           /* Collé en haut */
+    left: 0;
+    width: 100%;      /* Prend toute la largeur */
+    padding-top: 60px;
+    padding: 10px 20px; /* Espacement intérieur */
+    display: flex;
+    align-items: center;
+    z-index: 1000; /* Pour qu'elle reste au-dessus des autres éléments */
+  }
+  
+  .logo {
+    height: 50px; /* Ajuste la taille */
+    width: auto;
+  }

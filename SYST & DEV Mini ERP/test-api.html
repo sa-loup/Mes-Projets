@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Test API Google Sheets</title>
+</head>
+<body>
+    <h1>Test de l'API Google Sheets</h1>
+    <button onclick="testAPI()">Tester la connexion</button>
+    <div id="result"></div>
+
+    <script>
+    async function testAPI() {
+        const SHEET_ID = '1tp8KrvtuKstBj4JS0lNWLLMEpaSx8C4aofAKLAJpeJo';
+        const API_KEY = 'AIzaSyCzzb19IRf2WJpQ92THgSs20N5EBYPE1vI';
+        
+        try {
+            // Test de lecture
+            const response = await fetch(
+                `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/Users!A1:G1?key=${API_KEY}`
+            );
+            
+            const data = await response.json();
+            document.getElementById('result').innerHTML = `
+                <h3>Test réussi !</h3>
+                <p>En-têtes : ${JSON.stringify(data.values)}</p>
+            `;
+            
+            console.log('Réponse API:', data);
+            
+        } catch (error) {
+            document.getElementById('result').innerHTML = `
+                <h3 style="color: red;">Erreur !</h3>
+                <p>${error.message}</p>
+                <p>Vérifiez :</p>
+                <ul>
+                    <li>L'ID de la feuille est correct</li>
+                    <li>La clé API est valide</li>
+                    <li>L'API Google Sheets est activée</li>
+                    <li>La feuille est partagée</li>
+                </ul>
+            `;
+            console.error('Erreur:', error);
+        }
+    }
+    </script>
+</body>
+</html>

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tâches - IT Services Management</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+
+<body>
+    <div class="main-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-code"></i>
+                    <span>IT Services Pro</span>
+                </div>
+            </div>
+
+            <nav class="sidebar-menu">
+                <a href="dashboard.html" class="menu-item">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="clients.html" class="menu-item">
+                    <i class="fas fa-users"></i>
+                    <span>Clients & Fournisseurs</span>
+                </a>
+                <a href="projects.html" class="menu-item">
+                    <i class="fas fa-project-diagram"></i>
+                    <span>Projets</span>
+                </a>
+                <a href="services.html" class="menu-item">
+                    <i class="fas fa-cogs"></i>
+                    <span>Services</span>
+                </a>
+                <a href="tickets.html" class="menu-item">
+                    <i class="fas fa-ticket-alt"></i>
+                    <span>Tickets</span>
+                </a>
+                <a href="tasks.html" class="menu-item active">
+                    <i class="fas fa-tasks"></i>
+                    <span>Tâches</span>
+                </a>
+                <a href="billing.html" class="menu-item">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                    <span>Facturation</span>
+                </a>
+                <a href="purchases.html" class="menu-item">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Achats/Ventes</span>
+                </a>
+
+                <div class="menu-divider"></div>
+
+                <a href="#" class="menu-item" id="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Déconnexion</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <div class="header-left">
+                    <button class="menu-toggle" id="menu-toggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <div class="breadcrumb">
+                        <span>Tâches</span>
+                    </div>
+                </div>
+
+                <div class="header-right">
+                    <div class="user-info">
+                        <div class="avatar" id="user-avatar">JD</div>
+                        <div class="user-details">
+                            <span class="user-name" id="user-name">John Doe</span>
+                            <span class="user-role" id="user-role">Admin</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Page Content -->
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">Gestion des Tâches</h1>
+                    <p class="page-subtitle">Organisez et suivez vos tâches quotidiennes</p>
+                </div>
+                <div class="page-actions">
+                    <button class="btn btn-primary" onclick="tasks.openTaskModal()">
+                        <i class="fas fa-plus"></i> Nouvelle Tâche
+                    </button>
+                </div>
+            </div>
+
+            <!-- Stats -->
+            <div class="stats-grid" id="tasks-stats">
+                <!-- Les stats seront chargées par JavaScript -->
+            </div>
+
+            <!-- Search and Filter -->
+            <div class="search-filter">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="taskSearch" placeholder="Rechercher tâches...">
+                </div>
+                <select class="filter-select" id="taskFilter">
+                    <option value="all">Toutes les tâches</option>
+                    <option value="todo">À faire</option>
+                    <option value="in_progress">En cours</option>
+                    <option value="completed">Terminées</option>
+                    <option value="overdue">En retard</option>
+                </select>
+            </div>
+
+            <!-- Tasks Table -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Liste des Tâches</h3>
+                </div>
+                <div class="card-body">
+                    <div class="table-container">
+                        <table id="tasks-table">
+                            <thead>
+                                <tr>
+                                    <th>Tâche</th>
+                                    <th>Assigné à</th>
+                                    <th>Priorité</th>
+                                    <th>Statut</th>
+                                    <th>Deadline</th>
+                                    <th>Progression</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Données chargées par JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="js/google-sheets.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/tasks.js"></script>
+</body>
+
+</html>

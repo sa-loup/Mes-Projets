@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Setup Admin</title>
+</head>
+<body>
+    <h1>Création du compte administrateur</h1>
+    
+    <div>
+        <label>Email :</label>
+        <input type="email" id="email" placeholder="admin@entreprise.com">
+    </div>
+    
+    <div>
+        <label>Mot de passe :</label>
+        <input type="password" id="password" placeholder="Mot de passe">
+    </div>
+    
+    <div>
+        <label>Nom complet :</label>
+        <input type="text" id="fullName" placeholder="John Doe">
+    </div>
+    
+    <button onclick="createAdmin()">Créer Admin</button>
+    <div id="result"></div>
+
+    <script>
+    // Fonction de hash simple (identique à celle dans auth.js)
+    function simpleHash(str) {
+        let hash = 0;
+        for (let i = 0; i < str.length; i++) {
+            const char = str.charCodeAt(i);
+            hash = ((hash << 5) - hash) + char;
+            hash = hash & hash;
+        }
+        return hash.toString(36);
+    }
+
+    async function createAdmin() {
+        const SHEET_ID = '1tp8KrvtuKstBj4JS0lNWLLMEpaSx8C4aofAKLAJpeJo';
+        const API_KEY = 'AIzaSyCzzb19IRf2WJpQ92THgSs20N5EBYPE1vI';
+        
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const fullName = document.getElementById('fullName').value;
+        
+        if (!email || !password || !fullName) {
+            alert('Veuillez remplir tous les champs');
+            return;
+        }
+        
+        const adminData = {
+            id: Date.now().toString(36),
+            email: email,
+            password_hash: simpleHash(password),
+            role: 'admin',
+            full_name: fullName,
+            created_at: new Date().toISOString(),
+            last_login: ''
+        };
+        
+        try {
+            // Préparer les données pour Google Sheets
+            const values = [[
+                adminData.id,
+                adminData.email,
+                adminData.password_hash,
+                adminData.role,
+                adminData.full_name,
+                adminData.created_at,
+                adminData.last_login
+            ]];
+            
+            const response = await fetch(
+                `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/Users:append?valueInputOption=USER_ENTERED&key=${API_KEY}`,
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        values: values
+                    })
+                }
+            );
+            
+            const result = await response.json();
+            
+            if (response.ok) {
+                document.getElementById('result').innerHTML = `
+                    <h3 style="color: green;">Compte admin créé avec succès !</h3>
+                    <p>Email : ${email}</p>
+                    <p>Mot de passe : ********</p>
+                    <p>ID : ${adminData.id}</p>
+                    <p><strong>Notez ces informations !</strong></p>
+                `;
+            } else {
+                throw new Error('Erreur API');
+            }
+            
+        } catch (error) {
+            document.getElementById('result').innerHTML = `
+                <h3 style="color: red;">Erreur lors de la création</h3>
+                <p>${error.message}</p>
+            `;
+            console.error('Erreur:', error);
+        }
+    }
+    </script>
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Détails du produit</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <div class="logo">MonShop</div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="products.html">Produits</a></li>
+                <li><a href="cart.html">Panier (<span id="cart-count">0</span>)</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="product-page">
+        <div class="product-container">
+            <div class="product-gallery">
+                <div class="main-image">
+                    <img src="../images/smart-watch.jpg" alt="Montre intelligente" id="main-product-image">
+                </div>
+                <div class="thumbnail-images">
+                    <img src="../images/smart-watch.jpg" alt="Miniature 1">
+                    <img src="../images/smart-watch-2.jpg" alt="Miniature 2">
+                    <img src="../images/smart-watch-3.jpg" alt="Miniature 3">
+                </div>
+            </div>
+            
+            <div class="product-details">
+                <h1 id="product-title">Montre intelligente</h1>
+                <div class="product-price" id="product-price">$99.99</div>
+                <div class="product-rating">
+                    ★★★★☆ <span class="review-count">(24 avis)</span>
+                </div>
+                <p class="product-description" id="product-description">
+                    Montre intelligente avec suivi d'activité, moniteur de fréquence cardiaque, 
+                    notifications d'appels et messages, étanche jusqu'à 50m.
+                </p>
+                
+                <div class="product-options">
+                    <div class="option">
+                        <label>Couleur:</label>
+                        <select id="color-select">
+                            <option>Noir</option>
+                            <option>Bleu</option>
+                            <option>Rouge</option>
+                        </select>
+                    </div>
+                    
+                    <div class="option">
+                        <label>Taille:</label>
+                        <select id="size-select">
+                            <option>Standard</option>
+                            <option>Grande</option>
+                        </select>
+                    </div>
+                    
+                    <div class="option">
+                        <label>Quantité:</label>
+                        <input type="number" id="product-quantity" min="1" value="1">
+                    </div>
+                </div>
+                
+                <button id="add-to-cart-btn" class="btn">Ajouter au panier</button>
+            </div>
+        </div>
+        
+        <section class="product-tabs">
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="description">Description</button>
+                <button class="tab-btn" data-tab="specs">Spécifications</button>
+                <button class="tab-btn" data-tab="reviews">Avis</button>
+            </div>
+            
+            <div class="tab-content active" id="description-tab">
+                <h3>Description détaillée</h3>
+                <p>Notre montre intelligente haut de gamme offre toutes les fonctionnalités dont vous avez besoin 
+                pour suivre votre activité quotidienne et vos séances d'entraînement. Avec son écran tactile 
+                haute résolution et sa batterie longue durée, vous ne manquerez plus jamais un appel ou un message important.</p>
+            </div>
+            
+            <div class="tab-content" id="specs-tab">
+                <h3>Spécifications techniques</h3>
+                <ul>
+                    <li>Écran: 1.4" AMOLED</li>
+                    <li>Autonomie: Jusqu'à 7 jours</li>
+                    <li>Capteurs: Accéléromètre, gyroscope, fréquence cardiaque</li>
+                    <li>Étanchéité: 5ATM (50m)</li>
+                </ul>
+            </div>
+            
+            <div class="tab-content" id="reviews-tab">
+                <h3>Avis clients</h3>
+                <div class="review">
+                    <div class="review-header">
+                        <span class="review-author">Jean D.</span>
+                        <span class="review-rating">★★★★★</span>
+                    </div>
+                    <p class="review-text">Excellent produit, très satisfait de mon achat.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2023 MonShop Dropshipping</p>
+    </footer>
+
+    <script src="../js/product.js"></script>
+</body>
+</html>

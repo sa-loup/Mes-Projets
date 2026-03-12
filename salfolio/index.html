@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Devfolio - Salem HAMIDATOU</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;700&family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <link rel="shortcut icon" href="/image.png" type="image/x-icon"><link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Barre latérale comme VS Code -->
+        <aside class="sidebar">
+            <div class="logo">
+                <span class="bracket">{</span>SH<span class="bracket">}</span>
+            </div>
+            <nav class="nav-menu">
+                <ul>
+                    <li><a href="#home" class="nav-link active" data-section="home"><i class="fas fa-home"></i></a></li>
+                    <li><a href="#about" class="nav-link" data-section="about"><i class="fas fa-user"></i></a></li>
+                    <li><a href="#services" class="nav-link" data-section="services"><i class="fas fa-code"></i></a></li>
+                    <li><a href="#projects" class="nav-link" data-section="projects"><i class="fas fa-folder"></i></a></li>
+                    <li><a href="#contact" class="nav-link" data-section="contact"><i class="fas fa-envelope"></i></a></li>
+                </ul>
+            </nav>
+            <div class="social-links">
+                <a href="https://github.com/sa-loup"><i class="fab fa-github"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+            </div>
+        </aside>
+
+        <!-- Contenu principal -->
+        <main class="main-content">
+            <!-- Section Hero -->
+            <section id="home" class="section active">
+                <h1>Dev<span class="highlight">folio</span></h1>
+                <div class="hero">
+                    <div class="console-text">
+                        <span class="prompt">&gt;</span>
+                        <span class="typing-text"></span>
+                        <span class="cursor">|</span>
+                    </div>
+                    <h1>Salem <span class="highlight">HAMIDATOU</span></h1>
+                    <h2>Développeur <span class="highlight">Full Stack</span></h2>
+                    <p>Je crée des solutions web modernes et performantes</p>
+<a href="#contact" class="cta-button" id="contact-button">
+    Me contacter <i class="fas fa-arrow-right"></i>
+</a>
+                </div>
+            </section>
+
+            <!-- Section À propos -->
+            <section id="about" class="section">
+                <div class="section-header">
+                    <h2><span class="highlight">//</span> À propos</h2>
+                </div>
+                <div class="about-content">
+                    <div class="about-text">
+                        <h3>Mon parcours</h3>
+                        <p>Développeur Full Stack avec 2 ans d'expérience chez <span class="highlight">SARL ADVANCED OFFICE</span> comme administrateur de base de données.</p>
+                        <p>Formation en développement Full Stack et design UI/UX chez <span class="highlight">GOMYCODE</span>.</p>
+                        
+                        <h3>Compétences</h3>
+                        <div class="skills">
+                            <div class="skill-category">
+                                <h4>Frontend</h4>
+                                <ul>
+                                    <li>HTML/CSS/JavaScript</li>
+                                    <li>React.Js</li>
+                                    <li>TypeScript</li>
+                                    <li>Next.Js</li>
+                                    <li>Tailwind CSS</li>
+                                    <li>Bootstrap 5</li>
+                                    <li>Bulma</li>
+                                    <li>Foundation (Zurb)</li>
+                                    <li>Materialize</li>
+                                    <li>MUI</li>
+                                </ul>
+                            </div>
+                            <div class="skill-category">
+                                <h4>Backend</h4>
+                                <ul>
+                                    <li>Node.js</li>
+                                    <li>Express</li>
+                                    <li>API</li>
+                                    <li>RestAPI</li>
+                                </ul>
+                            </div>
+                            <div class="skill-category">
+                                <h4>Bases de données</h4>
+                                <ul>
+                                    <li>MongoDB</li>
+                                    <li>MySQL</li>
+                                    <li>NoSQL</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="about-image">
+                        <div class="code-window">
+                            <div class="window-header">
+                                <span class="dot red"></span>
+                                <span class="dot yellow"></span>
+                                <span class="dot green"></span>
+                                <span class="title">about-me.js</span>
+                            </div>
+                            <div class="code-content">
+                                <pre><code class="javascript">const salem = {
+  name: "Salem HAMIDATOU",
+  role: "Développeur Full Stack",
+  experience: [
+    {
+      company: "ADVANCED OFFICE",
+      position: "Admin BD",
+      duration: "2 ans"
+    },
+    {
+      company: "GOMYCODE",
+      position: "Formation Full Stack & UI/UX",
+      duration: "1 an"
+    }
+  ],
+  skills: {
+    frontend: ["HTML/CSS/JavaScript", "React", "TypeScript", "Next.js", "Tailwind CSS", "Bootstrap 5", "Bulma", "Foundation", "Materialize", "MUI"],
+    backend: ["Node.js", "Express", "API", "RestAPI"],
+    databases: ["MongoDB", "MySQL", "NoSQL"],
+    design: ["UI/UX", "Frameworks CSS"],
+  }
+};</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section Services -->
+            <section id="services" class="section">
+                <div class="section-header">
+                    <h2><span class="highlight">//</span> Services</h2>
+                </div>
+                <div class="services-grid">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h3>Développement Web</h3>
+                        <p>Création d'applications web modernes et réactives avec les dernières technologies.</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-paint-brush"></i>
+                        </div>
+                        <h3>Web Design</h3>
+                        <p>Conception d'interfaces utilisateur intuitives et esthétiques pour une meilleure expérience.</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-database"></i>
+                        </div>
+                        <h3>Administration BD</h3>
+                        <p>Gestion et optimisation de bases de données pour des performances optimales.</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <h3>Applications Responsives</h3>
+                        <p>Développement d'applications adaptées à tous les appareils et tailles d'écran.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section Projets -->
+            <section id="projects" class="section">
+                <div class="section-header">
+                    <h2><span class="highlight">//</span> Projets récents</h2>
+                </div>
+                <div class="projects-grid">
+                    <div class="project-card">
+                        <div class="project-image" style="background-image: url('/Purple\ and\ Pink\ Futuristic\ Music\ Studio\ Logo\ .png');">
+                            <div class="project-overlay">
+                                <h3>Music App</h3>
+                                <p>Application de streaming musical avec playlist personnalisée</p>
+                                <div class="project-tech">
+                                    <span>HTML</span>
+                                    <span>JavaScript</span>
+                                    <span>CSS Avancé</span>
+                                </div>
+                                <a href="https://music-pluss.netlify.app/" class="project-link">Voir le projet <i class="fas fa-external-link-alt"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-card">
+                        <div class="project-image" style="background-image: url('https://i.pinimg.com/736x/68/7d/fd/687dfd5da38c0b107a470e32a09943da.jpg');">
+                            <div class="project-overlay">
+                                <h3>Histoire d'Anime</h3>
+                                <p>Site web racontant l'histoire de l'anime Attack on Titan.</p>
+                                <div class="project-tech">
+                                    <span>HTML</span>
+                                    <span>JavaScript</span>
+                                    <span>CSS Avancé</span>
+                                </div>
+                                <a href="https://aot-anime.netlify.app/" class="project-link">Voir le projet <i class="fas fa-external-link-alt"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-card">
+                        <div class="project-image" style="background-image: url('/Black\ Beige\ Minimal\ Simple\ Modern\ Creative\ Studio\ Mesh\ Logo.png');">
+                            <div class="project-overlay">
+                                <h3>Portfolio Client</h3>
+                                <p>Site web portfolio pour un client avec galerie et formulaire de contact</p>
+                                <div class="project-tech">
+                                    <span>HTML/CSS</span>
+                                    <span>JavaScript</span>
+                                    <span>CSS Avancé</span>
+                                </div>
+                                <a href="https://aniflex-dz.netlify.app/" class="project-link">Voir le projet <i class="fas fa-external-link-alt"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-card">
+                        <div class="project-image" style="background-image: url('https://mambowifi.com/wp-content/uploads/2021/08/capa-autenticacao.png');">
+                            <div class="project-overlay">
+                                <h3>Extension 2FA (Edition Odoo)</h3>
+                                <p>Extension Chrome pour l'authentification à deux facteurs automatisée</p>
+                                <div class="project-tech">
+                                    <span>Chrome API</span>
+                                    <span>JavaScript</span>
+                                </div>
+                                <a href="https://2fa-odoo.netlify.app/" class="project-link">Voir le projet <i class="fas fa-external-link-alt"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-card">
+                        <div class="project-image" style="background-image: url('/Black\ and\ White\ Modern\ E-Sport\ Gaming\ Combination\ Mark\ Logo.png');">
+                            <div class="project-overlay">
+                                <h3>E-commerce MERN - GLORY GAMES</h3>
+                                <p>Plateforme de vente de jeux vidéo, consoles et cartes d'artiste</p>
+                                <div class="project-tech">
+                                    <span>MERN Stack</span>
+                                    <span>Stripe API</span>
+                                </div>
+                                <a href="https://glory-games.netlify.app/" class="project-link">Voir le projet <i class="fas fa-external-link-alt"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section Contact -->
+            <section id="contact" class="section">
+                <div class="section-header">
+                    <h2><span class="highlight">//</span> Contact</h2>
+                </div>
+                <div class="contact-content">
+                    <div class="contact-info">
+                        <h3>Travaillons ensemble</h3>
+                        <p>Vous avez un projet en tête ou souhaitez discuter d'une opportunité ? Envoyez-moi un message et je vous répondrai dès que possible.</p>
+                        
+                        <div class="contact-details">
+                            <div class="contact-item">
+                                <i class="fas fa-envelope"></i>
+                                <span>salembarazilia@gmail.com</span>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fas fa-phone"></i>
+                                <span>+213 782 71 62 67</span>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Alger, Algérie</span>
+                            </div>
+                        </div>
+                    </div>
+                   <div class="contact-form">
+    <form id="contactForm" action="https://formspree.io/f/xblyklzz" method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+            <input type="text" id="name" name="name" placeholder="Votre nom" required>
+        </div>
+        <div class="form-group">
+            <input type="email" id="email" name="email" placeholder="Votre email" required>
+        </div>
+        <div class="form-group">
+            <input type="text" id="subject" name="subject" placeholder="Sujet" required>
+        </div>
+        <div class="form-group">
+            <textarea id="message" name="message" placeholder="Votre message" rows="5" required></textarea>
+        </div>
+        <!-- Champ caché pour la redirection après soumission -->
+        <!-- <input type="hidden" name="_next" value="https://votresite.com/merci.html"> -->
+        <!-- Optionnel : Ajout d'un token pour éviter le spam -->
+        <input type="text" name="_gotcha" style="display:none">
+        <button type="submit" class="submit-btn">Envoyer le message <i class="fas fa-paper-plane"></i></button>
+    </form>
+</div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Pied de page -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <span class="bracket">{</span>SH<span class="bracket">}</span>
+            </div>
+            <!-- <div class="footer-links">
+                <a href="#home">Accueil</a>
+                <a href="#about">À propos</a>
+                <a href="#services">Services</a>
+                <a href="#projects">Projets</a>
+                <a href="#contact">Contact</a>
+            </div> -->
+            <div class="footer-social">
+                <a href="https://github.com/sa-loup"><i class="fab fa-github"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; <span id="year"></span> Salem HAMIDATOU. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+    <script src="main.js"></script>
+    <div id="customAlert" class="custom-alert">
+    <div class="alert-content">
+        <span class="alert-close">&times;</span>
+        <div class="alert-icon">
+            <i class="fas fa-check-circle"></i>
+        </div>
+        <h3 class="alert-title">Succès!</h3>
+        <p class="alert-message">Message envoyé avec succès!</p>
+    </div>
+</div>
+</body>
+
+</html>

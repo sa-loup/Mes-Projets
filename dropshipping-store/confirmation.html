@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Commande confirmée</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <div class="logo">MonShop</div>
+        <nav>
+            <ul>
+                <li><a href="../index.html">Accueil</a></li>
+                <li><a href="../products.html">Produits</a></li>
+                <li><a href="cart.html">Panier (<span id="cart-count">0</span>)</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="confirmation-page">
+        <div class="confirmation-container">
+            <div class="confirmation-icon">✓</div>
+            <h1>Merci pour votre commande!</h1>
+            <p>Votre commande a été reçue et est en cours de traitement. Vous recevrez un email de confirmation sous peu.</p>
+            <p class="order-number">Numéro de commande: <span>#123456</span></p>
+            <a href="../index.html" class="btn">Retour à l'accueil</a>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2023 MonShop Dropshipping</p>
+    </footer>
+
+    <script>
+        // Mettre à jour le compteur du panier (doit être à 0)
+        document.getElementById('cart-count').textContent = '0';
+    </script>
+</body>
+</html>

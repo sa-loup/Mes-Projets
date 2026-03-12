@@ -1,0 +1,26 @@
+/* fix-fonts.css - Correction pour polices manquantes */
+
+/* 1. Désactive les polices problématiques */
+@font-face {
+    font-family: 'SF Pro Text';
+    src: local('Segoe UI'), local('Roboto'), local('Arial');
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'SFProText';
+    src: local('Segoe UI'), local('Roboto'), local('Arial');
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'SF Pro';
+    src: local('Segoe UI'), local('Roboto'), local('Arial');
+    font-display: swap;
+}
+
+/* 2. Surcharge les polices utilisées sur le site */
+* {
+    font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, 
+                 'Roboto', 'Helvetica Neue', Arial, sans-serif !important;
+}

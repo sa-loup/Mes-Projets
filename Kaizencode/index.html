@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KaizenCode</title>
+    <link rel="shortcut icon" href="/k.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs/editor/editor.main.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            height: 100vh;
+            overflow: hidden;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body.dark {
+            background-color: #1e1e1e;
+            color: #d4d4d4;
+        }
+
+        body.light {
+            background-color: #ffffff;
+            color: #000000;
+        }
+
+        .toolbar {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            gap: 12px;
+            border-bottom: 1px solid;
+            transition: all 0.3s;
+        }
+
+        body.dark .toolbar {
+            background-color: #2d2d2d;
+            border-bottom-color: #3e3e3e;
+        }
+
+        body.light .toolbar {
+            background-color: #f3f3f3;
+            border-bottom-color: #e0e0e0;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-right: auto;
+        }
+
+        button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .btn-run {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-save {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+
+        .btn-clear {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            color: white;
+        }
+
+        .btn-theme {
+            background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);
+            color: white;
+        }
+
+        .btn-download {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            color: #333;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            height: calc(100vh - 61px);
+            gap: 0;
+        }
+
+        .editor-panel {
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid;
+            transition: border-color 0.3s;
+        }
+
+        body.dark .editor-panel {
+            border-right-color: #3e3e3e;
+        }
+
+        body.light .editor-panel {
+            border-right-color: #e0e0e0;
+        }
+
+        .panel-header {
+            padding: 10px 20px;
+            font-weight: 600;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid;
+            transition: all 0.3s;
+        }
+
+        body.dark .panel-header {
+            background-color: #252526;
+            border-bottom-color: #3e3e3e;
+        }
+
+        body.light .panel-header {
+            background-color: #f8f8f8;
+            border-bottom-color: #e0e0e0;
+        }
+
+        #editor {
+            flex: 1;
+            width: 100%;
+        }
+
+        .preview-panel {
+            display: flex;
+            flex-direction: column;
+        }
+
+        #preview {
+            flex: 1;
+            width: 100%;
+            border: none;
+            background: white;
+        }
+
+        .icon {
+            width: 16px;
+            height: 16px;
+        }
+
+        .status-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 6px 20px;
+            font-size: 12px;
+            border-top: 1px solid;
+            transition: all 0.3s;
+        }
+
+        body.dark .status-bar {
+            background-color: #007acc;
+            border-top-color: #007acc;
+            color: white;
+        }
+
+        body.light .status-bar {
+            background-color: #007acc;
+            border-top-color: #007acc;
+            color: white;
+        }
+
+        .notification {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            padding: 12px 20px;
+            border-radius: 8px;
+            background: #4caf50;
+            color: white;
+            font-weight: 500;
+            opacity: 0;
+            transform: translateX(400px);
+            transition: all 0.3s;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .notification.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+                grid-template-rows: 1fr 1fr;
+            }
+
+            .editor-panel {
+                border-right: none;
+                border-bottom: 1px solid;
+            }
+
+            body.dark .editor-panel {
+                border-bottom-color: #3e3e3e;
+            }
+
+            body.light .editor-panel {
+                border-bottom-color: #e0e0e0;
+            }
+        }
+
+        .toolbar-lang {
+    margin-left: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #ffd700; /* jaune pour bien se démarquer */
+}
+
+
+
+
+.workspace {
+  display: flex;
+  height: 90vh;
+}
+
+.sidebar {
+  width: 220px;
+  background: #1e1e1e;
+  color: white;
+  padding: 10px;
+  overflow-y: auto;
+  border-right: 1px solid #444;
+}
+
+.sidebar h3 {
+  margin-top: 0;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar li {
+  padding: 6px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sidebar li:hover {
+  background: #333;
+}
+
+.sidebar .delete-btn {
+  color: red;
+  font-weight: bold;
+  cursor: pointer;
+  margin-left: 8px;
+}
+
+
+.logo {
+  display: flex;
+  align-items: center;
+  font-size: 20px;
+  font-weight: bold;
+  color: #00e0ff; /* couleur du texte */
+  gap: 8px; /* espace entre logo et texte */
+}
+
+.logo img {
+  width: 58px;
+  height: 58px;
+}
+
+/* ✅ Déjà ton responsive principal */
+@media (max-width: 768px) {
+    .container {
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 1fr;
+    }
+
+    .editor-panel {
+        border-right: none;
+        border-bottom: 1px solid;
+    }
+
+    body.dark .editor-panel {
+        border-bottom-color: #3e3e3e;
+    }
+
+    body.light .editor-panel {
+        border-bottom-color: #e0e0e0;
+    }
+
+    .workspace {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid #444;
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .sidebar ul {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .sidebar li {
+        flex: 1 1 45%;
+        margin: 4px;
+        padding: 8px;
+    }
+
+    .toolbar {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .logo {
+        font-size: 16px;
+    }
+
+    button {
+        flex: 1 1 auto;
+        font-size: 13px;
+        padding: 6px 10px;
+    }
+}
+
+/* ✅ Encore plus petit (mobile <= 480px) */
+@media (max-width: 480px) {
+    .toolbar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .toolbar .logo {
+        margin-bottom: 8px;
+        font-size: 14px;
+    }
+
+    .sidebar li {
+        flex: 1 1 100%;
+    }
+
+    button {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .status-bar {
+        font-size: 11px;
+        padding: 4px 10px;
+    }
+
+    .notification {
+        right: 10px;
+        top: 70px;
+        font-size: 13px;
+        padding: 8px 14px;
+    }
+}
+
+    </style>
+</head>
+<body class="dark">
+    <div class="toolbar">
+        <div class="logo">
+  <img src="/k.png" alt="Logo" />
+  <span>KaizenCode</span>
+</div>
+
+        <button class="btn-run" onclick="runCode()">
+            <svg class="icon" fill="currentColor" viewBox="0 0 20 20"><path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z"/></svg>
+            Exécuter
+        </button>
+        <button class="btn-save" onclick="saveCode()">
+            <svg class="icon" fill="currentColor" viewBox="0 0 20 20"><path d="M7.707 10.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V6h5a2 2 0 012 2v7a2 2 0 01-2 2H4a2 2 0 01-2-2V8a2 2 0 012-2h5v5.586l-1.293-1.293zM9 4a1 1 0 012 0v2H9V4z"/></svg>
+            Sauvegarder
+        </button>
+        <button class="btn-clear" onclick="clearCode()">
+            <svg class="icon" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
+            Effacer
+        </button>
+        <button class="btn-download" onclick="downloadCode()">
+            <svg class="icon" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+            Télécharger
+        </button>
+        <button class="btn-theme" onclick="toggleTheme()">
+            <svg class="icon" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/></svg>
+            Thème
+        </button>
+        <button onclick="document.getElementById('fileInput').click()">📂 Importer</button>
+
+  <input type="file" id="fileInput" style="display:none" />
+
+  
+
+    </div>
+    
+
+    <div class="container">
+        <div class="editor-panel">
+            <div class="panel-header">📝 Éditeur de Code</div>
+            <div id="editor"></div>
+        </div>
+        <div class="preview-panel">
+            <div class="panel-header">👁️ Aperçu en direct</div>
+            <iframe id="preview"></iframe>
+        </div>
+    </div>
+
+    <div class="status-bar">
+        <span>✓ Prêt</span>
+        <span id="line-info">Ligne 1, Colonne 1</span>
+    </div>
+
+<div class="workspace">
+  <div class="sidebar" id="file-explorer">
+    <h3>📁 Projet</h3>
+    <ul id="file-list"></ul>
+  </div>
+  <div id="editor" style="flex:1; height:90vh;"></div>
+</div>
+
+<input type="file" id="fileInput" multiple style="display:none">
+
+    <div class="notification" id="notification"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs/loader.min.js"></script>
+    <script>
+        let editor;
+        let currentTheme = 'dark';
+
+        const defaultCode = `<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ma Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .card {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            text-align: center;
+            animation: fadeIn 0.5s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        h1 {
+            color: #667eea;
+            margin: 0 0 20px 0;
+        }
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: transform 0.2s;
+        }
+        button:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>🚀 Bienvenue sur KaizenCode</h1>
+        <p>Commencez à coder et voyez le résultat en temps réel.</p>
+        <button onclick="alert('Bravo! Vous avez cliqué sur le bouton 🎉')">
+            Cliquez-moi!
+        </button>
+    </div>
+</body>
+</html>`;
+
+        require.config({ paths: { vs: 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs' }});
+
+        require.config({ paths: { vs: 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs' }});
+
+require(['vs/editor/editor.main'], function() {
+    editor = monaco.editor.create(document.getElementById('editor'), {
+        value: defaultCode,
+        language: 'html',
+        theme: 'vs-dark',
+        fontSize: 14,
+        minimap: { enabled: true },
+        automaticLayout: true,
+        wordWrap: 'on',
+        lineNumbers: 'on',
+        scrollBeyondLastLine: false,
+        formatOnPaste: true,
+        formatOnType: true,
+        suggestOnTriggerCharacters: true,
+        tabSize: 2
+    });
+
+    // Infos ligne/colonne
+    editor.onDidChangeCursorPosition((e) => {
+        document.getElementById('line-info').textContent = 
+            `Ligne ${e.position.lineNumber}, Colonne ${e.position.column}`;
+    });
+
+    // 🔹 Restaurer le code sauvegardé
+    const saved = localStorage.getItem('editorCode');
+    if (saved) {
+        editor.setValue(saved);
+        showNotification('Code restauré! 📂');
+    }
+
+    // Exécuter une première fois
+    runCode();
+
+    // 🔹 Auto-save + Auto-run
+    let autoSaveTimeout;
+    let autoRunTimeout;
+
+    editor.onDidChangeModelContent(() => {
+        const code = editor.getValue();
+
+        // Auto-save après 2s
+        clearTimeout(autoSaveTimeout);
+        autoSaveTimeout = setTimeout(() => {
+            localStorage.setItem('editorCode', code);
+            showNotification('Code sauvegardé automatiquement 💾');
+        }, 2000);
+
+        // Auto-run après 1s
+        clearTimeout(autoRunTimeout);
+        autoRunTimeout = setTimeout(() => {
+            runCode(); // Exécuter automatiquement
+        }, 1000);
+    });
+
+    function updateLanguage(lang) {
+    const langBox = document.getElementById("lang-detect");
+    langBox.textContent = "Langage : " + lang.toUpperCase();
+}
+
+
+    function detectLanguage() {
+    const code = editor.getValue();
+
+    let lang = "plaintext"; // par défaut
+    if (/<!DOCTYPE html>|<html>/i.test(code)) lang = "html";
+    else if (/^\s*#include\b|int\s+main\s*\(/.test(code)) lang = "cpp";
+    else if (/^\s*(public\s+class|System\.out\.println)/.test(code)) lang = "java";
+    else if (/^\s*def\s+|print\(|import\s+\w+/.test(code)) lang = "python";
+    else if (/^\s*function\b|console\.log\(|let\s+|const\s+/.test(code)) lang = "javascript";
+    else if (/^\s*SELECT\s+.*FROM/i.test(code)) lang = "sql";
+    else if (/^\s*<\?php|echo\s+/.test(code)) lang = "php";
+
+    monaco.editor.setModelLanguage(editor.getModel(), lang);
+    updateLanguage(lang); // ✅ affiche dans la toolbar
+}
+
+
+function updateLanguage() {
+    const code = editor.getValue();
+    const lang = detectLanguage(code);
+
+    const model = editor.getModel();
+    if (monaco.editor.getModelLanguage(model) !== lang) {
+        monaco.editor.setModelLanguage(model, lang);
+        showNotification(`Langage détecté : ${lang} 🔎`);
+    }
+}
+
+// Appeler la détection à chaque changement
+editor.onDidChangeModelContent(() => {
+    updateLanguage();
+});
+
+});
+
+function runCode() {
+    try {
+        const code = editor.getValue();
+        const preview = document.getElementById('preview');
+        preview.srcdoc = code;
+        showNotification('Code exécuté ✅');
+    } catch (err) {
+        showNotification('Erreur d’exécution ❌');
+        console.error(err);
+    }
+}
+
+function saveCode() {
+    const code = editor.getValue();
+    localStorage.setItem('editorCode', code);
+    showNotification('Code sauvegardé! 💾');
+}
+
+function clearCode() {
+    if (confirm('Voulez-vous vraiment effacer tout le code?')) {
+        editor.setValue('');
+        document.getElementById('preview').srcdoc = '';
+        localStorage.removeItem('editorCode');
+        showNotification('Code effacé! 🗑️');
+    }
+}
+
+function downloadCode() {
+    const code = editor.getValue();
+    const blob = new Blob([code], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'mon-code.html';
+    a.click();
+    URL.revokeObjectURL(url);
+    showNotification('Code téléchargé! 📥');
+}
+
+function toggleTheme() {
+    const body = document.body;
+    if (currentTheme === 'dark') {
+        currentTheme = 'light';
+        body.className = 'light';
+        monaco.editor.setTheme('vs');
+    } else {
+        currentTheme = 'dark';
+        body.className = 'dark';
+        monaco.editor.setTheme('vs-dark');
+    }
+    showNotification(`Thème ${currentTheme === 'dark' ? 'sombre' : 'clair'} activé! 🎨`);
+}
+
+function showNotification(message) {
+    const notif = document.getElementById('notification');
+    notif.textContent = message;
+    notif.classList.add('show');
+    setTimeout(() => {
+        notif.classList.remove('show');
+    }, 1500);
+}
+
+document.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+        e.preventDefault();
+        saveCode();
+    }
+    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+        e.preventDefault();
+        runCode();
+    }
+});
+
+// Gestion de l'upload de fichier
+document.getElementById("fileInput").addEventListener("change", function(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const content = e.target.result;
+        editor.setValue(content); // Charger dans l'éditeur
+
+        // Détection automatique du langage
+        const lang = detectLanguage(content);
+        monaco.editor.setModelLanguage(editor.getModel(), lang);
+        
+        // Afficher le nom du fichier et le langage
+        document.getElementById("file-name").textContent = "Fichier : " + file.name;
+        document.getElementById("lang-detect").textContent = "Langage : " + lang.toUpperCase();
+
+        showNotification(`Fichier "${file.name}" chargé avec succès 📂`);
+    };
+
+    reader.readAsText(file);
+
+
+
+
+
+    
+});
+
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - IT Services Management</title>
+    <link rel="stylesheet" href="css/auth.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/fix-fonts.css">
+<link rel="stylesheet" href="css/style.css">
+<!-- autres CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <div class="logo">
+                    <i class="fas fa-code"></i>
+                    <h1>IT Services Pro</h1>
+                </div>
+                <p>Système de gestion d'agence informatique</p>
+            </div>
+
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="email">
+                        <i class="fas fa-envelope"></i> Email
+                    </label>
+                    <input type="email" id="email" required placeholder="admin@entreprise.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="password">
+                        <i class="fas fa-lock"></i> Mot de passe
+                    </label>
+                    <input type="password" id="password" required placeholder="••••••••">
+                </div>
+
+                <button type="submit" class="btn-primary">
+                    <i class="fas fa-sign-in-alt"></i> Se connecter
+                </button>
+
+                <div class="login-footer">
+                    <p>© 2024 IT Services Pro. Tous droits réservés.</p>
+                </div>
+            </form>
+        </div>
+    </div>
+<!-- Dans le <head> de vos fichiers HTML -->
+<script>
+// Bloque les tentatives de chargement de polices manquantes
+document.addEventListener('DOMContentLoaded', function() {
+    const originalInsertRule = CSSStyleSheet.prototype.insertRule;
+    CSSStyleSheet.prototype.insertRule = function(rule, index) {
+        if (rule.includes('sf-pro-text') || rule.includes('.woff2')) {
+            console.log('Blocked font rule:', rule.substring(0, 100));
+            return index || 0;
+        }
+        return originalInsertRule.call(this, rule, index);
+    };
+});
+</script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="js/google-sheets.js"></script>
+    <script src="js/auth.js"></script>
+</body>
+
+</html>

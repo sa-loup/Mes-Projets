@@ -1,0 +1,20 @@
+{
+    "name": "SalBoot IA",
+    "short_name": "SalBoot",
+    "start_url": "./index.html",
+    "display": "standalone",
+    "background_color": "#0a0a0a",
+    "theme_color": "#cf0000",
+    "icons": [
+        {
+            "src": "salboot-removebg-preview.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "salboot-removebg-preview.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}

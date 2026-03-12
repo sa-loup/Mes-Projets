@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Panier</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <div class="logo">MonShop</div>
+        <nav>
+            <ul>
+                <li><a href="../index.html">Accueil</a></li>
+                <li><a href="../products.html">Produits</a></li>
+                <li><a href="cart.html">Panier (<span id="cart-count">0</span>)</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="cart-page">
+        <h1>Votre Panier</h1>
+        
+        <div class="cart-container">
+            <div class="cart-items">
+                <div class="cart-empty" id="cart-empty">
+                    <p>Votre panier est vide</p>
+                    <a href="../products.html" class="btn">Parcourir les produits</a>
+                </div>
+                
+                <div class="cart-items-list" id="cart-items-list">
+                    <!-- Articles ajoutés dynamiquement -->
+                </div>
+            </div>
+            
+            <div class="cart-summary">
+                <h3>Résumé de la commande</h3>
+                <div class="summary-details">
+                    <div class="summary-row">
+                        <span>Sous-total</span>
+                        <span id="subtotal">$0.00</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Livraison</span>
+                        <span id="shipping">$5.99</span>
+                    </div>
+                    <div class="summary-row total">
+                        <span>Total</span>
+                        <span id="total">$5.99</span>
+                    </div>
+                </div>
+                <button class="btn checkout-btn" id="checkout-btn">Passer la commande</button>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2023 MonShop Dropshipping</p>
+    </footer>
+
+    <script src="../js/cart.js"></script>
+</body>
+</html>

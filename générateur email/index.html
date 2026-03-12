@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MailPro+</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="shortcut icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Email_Shiny_Icon.svg/1024px-Email_Shiny_Icon.svg.png" type="image/x-icon">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-envelope"></i> MailPro+
+            </div>
+            <div>
+                <button class="btn btn-outline" id="settings-btn">
+                    <i class="fas fa-cog"></i> Paramètres
+                </button>
+            </div>
+        </header>
+        
+        <div class="main-content">
+            <div class="sidebar">
+                <h3>Modèles</h3>
+                <div class="template-card active" data-template="demande">
+                    <div class="template-icon">
+                        <i class="fas fa-question-circle"></i>
+                    </div>
+                    <div class="template-title">Demande</div>
+                    <div class="template-desc">Formuler une demande professionnelle</div>
+                </div>
+                
+                <div class="template-card" data-template="reponse">
+                    <div class="template-icon">
+                        <i class="fas fa-reply"></i>
+                    </div>
+                    <div class="template-title">Réponse</div>
+                    <div class="template-desc">Répondre à un email reçu</div>
+                </div>
+                
+                <div class="template-card" data-template="relance">
+                    <div class="template-icon">
+                        <i class="fas fa-sync-alt"></i>
+                    </div>
+                    <div class="template-title">Relance</div>
+                    <div class="template-desc">Relancer un collaborateur</div>
+                </div>
+                
+                <div class="template-card" data-template="annonce">
+                    <div class="template-icon">
+                        <i class="fas fa-bullhorn"></i>
+                    </div>
+                    <div class="template-title">Annonce</div>
+                    <div class="template-desc">Communiquer une information</div>
+                </div>
+                
+                <div class="template-card" data-template="remerciement">
+                    <div class="template-icon">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <div class="template-title">Remerciement</div>
+                    <div class="template-desc">Exprimer sa gratitude</div>
+                </div>
+                
+                <div class="template-card" data-template="reclamation">
+                    <div class="template-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <div class="template-title">Réclamation</div>
+                    <div class="template-desc">Exprimer un mécontentement</div>
+                </div>
+                
+                <h3 style="margin-top: 30px;">Historique</h3>
+                <div id="history-list">
+                    <div class="history-item">
+                        <div class="history-title">Demande de congés</div>
+                        <div class="history-date">Aujourd'hui, 10:23</div>
+                    </div>
+                    <div class="history-item">
+                        <div class="history-title">Réponse projet X</div>
+                        <div class="history-date">Hier, 15:47</div>
+                    </div>
+                    <div class="history-item">
+                        <div class="history-title">Relance fournisseur</div>
+                        <div class="history-date">Lundi, 09:12</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="content-area">
+                <div class="form-section">
+                    <div class="tab-container">
+                        <div class="tabs">
+                            <div class="tab active" data-tab="compose">Composition</div>
+                            <div class="tab" data-tab="settings">Paramètres</div>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-content active" id="compose-tab">
+                        <div class="form-group">
+                            <label for="recipient">Destinataire(s) <span class="tooltip">ℹ️<span class="tooltiptext">Séparez plusieurs destinataires par des virgules</span></span></label>
+                            <div class="input-group">
+                                <input type="text" id="recipient" placeholder="ex: Jean Dupont, service.comptabilité">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="object">Objet</label>
+                            <div class="input-group">
+                                <input type="text" id="object" placeholder="ex: Demande d'information sur le projet X">
+                                <div class="character-count"><span id="object-count">0</span>/60 caractères</div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="tone">Ton</label>
+                            <select id="tone">
+                                <option value="formel">Formel (client, hiérarchie)</option>
+                                <option value="courant" selected>Courant (collègues)</option>
+                                <option value="amical">Amical (équipe proche)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="urgency">Niveau d'urgence</label>
+                            <select id="urgency">
+                                <option value="normal">Normal</option>
+                                <option value="important">Important</option>
+                                <option value="urgent">Urgent</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="content">Contenu <span class="tooltip">ℹ️<span class="tooltiptext">Décrivez simplement ce que vous voulez dire, nous le reformulerons professionnellement</span></span></label>
+                            <textarea id="content" placeholder="Décrivez le contenu de votre email en quelques mots..."></textarea>
+                            <div class="character-count"><span id="content-count">0</span> mots</div>
+                        </div>
+                        
+                        <div class="suggestions">
+                            <label>Suggestions :</label>
+                            <div>
+                                <span class="suggestion-item">Demande de rendez-vous</span>
+                                <span class="suggestion-item">Feedback sur projet</span>
+                                <span class="suggestion-item">Demande d'information</span>
+                                <span class="suggestion-item">Problème technique</span>
+                                <span class="suggestion-item">Report de délai</span>
+                            </div>
+                        </div>
+                        
+                        <div class="btn-group">
+                            <button class="btn btn-primary" id="generate-btn">
+                                <i class="fas fa-magic"></i> Générer l'email
+                            </button>
+                            <button class="btn btn-outline" id="clear-btn">
+                                <i class="fas fa-trash-alt"></i> Effacer
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-content" id="settings-tab">
+                        <h3>Paramètres de signature</h3>
+                        <div class="settings-option">
+                            <label>
+                                <input type="checkbox" id="include-signature" checked>
+                                Inclure ma signature
+                            </label>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="signature-name">Nom complet</label>
+                            <input type="text" id="signature-name" placeholder="Votre nom">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="signature-position">Poste</label>
+                            <input type="text" id="signature-position" placeholder="Votre poste">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="signature-department">Service/Département</label>
+                            <input type="text" id="signature-department" placeholder="Votre service">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="signature-contact">Coordonnées</label>
+                            <input type="text" id="signature-contact" placeholder="Téléphone, email, etc.">
+                        </div>
+                        
+                        <h3>Options avancées</h3>
+                        <div class="settings-option">
+                            <label>
+                                <input type="checkbox" id="spell-check" checked>
+                                Vérification orthographique
+                            </label>
+                        </div>
+                        
+                        <div class="settings-option">
+                            <label>
+                                <input type="checkbox" id="tone-suggestions" checked>
+                                Suggestions de ton
+                            </label>
+                        </div>
+                        
+                        <div class="settings-option">
+                            <label>
+                                <input type="checkbox" id="save-history" checked>
+                                Sauvegarder l'historique
+                            </label>
+                        </div>
+                        
+                        <div class="btn-group">
+                            <button class="btn btn-success" id="save-settings-btn">
+                                <i class="fas fa-save"></i> Enregistrer
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="preview-section">
+                    <h3>Prévisualisation</h3>
+                    <div class="email-preview" id="email-preview">
+                        <p style="color: #999; text-align: center;">Votre email apparaitra ici après génération</p>
+                    </div>
+                    
+                    <div class="btn-group" id="action-buttons" style="display: none;">
+                        <button class="btn btn-success" id="copy-btn">
+                            <i class="fas fa-copy"></i> Copier
+                        </button>
+                        <button class="btn btn-primary" id="send-btn">
+                            <i class="fas fa-paper-plane"></i> Envoyer via Outlook
+                        </button>
+                        <button class="btn btn-outline" id="save-template-btn">
+                            <i class="fas fa-save"></i> Sauvegarder comme modèle
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+   <script src="/main.js"></script>
+</body>
+</html>

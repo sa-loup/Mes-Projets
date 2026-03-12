@@ -1,0 +1,3092 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>معركة الأبطال - نسخة ناروتو</title>
+    <link rel="manifest" href="manifest.json" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="/battle.png">
+    <link rel="shortcut icon" href="/battle.png" type="image/x-icon">
+
+    <style>
+
+ * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: #000;
+        }
+
+        /* Écran d'accueil */
+        #intro-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(135deg, #0c1445 0%, #1a1a2e 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 1s ease;
+        }
+
+        #intro-screen.fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* Particules animées */
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #ff6b00;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #ff6b00;
+            animation: float 15s infinite;
+            opacity: 0.6;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(100vh) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.6;
+            }
+            90% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(-100px) translateX(100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Logo principal */
+        .logo-container {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            animation: logoEntrance 1.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes logoEntrance {
+            0% {
+                transform: scale(0) rotate(-180deg);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1) rotate(0deg);
+                opacity: 1;
+            }
+        }
+
+        .main-title {
+            font-size: clamp(3rem, 10vw, 6rem);
+            font-weight: 900;
+            background: linear-gradient(90deg, #ff6b00, #ffd700, #ff6b00);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 8px;
+            margin-bottom: 20px;
+            animation: gradientShift 3s ease infinite;
+            text-shadow: 0 0 30px rgba(255, 107, 0, 0.5);
+            filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.7));
+        }
+
+        @keyframes gradientShift {
+            0%, 100% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        .subtitle {
+            font-size: clamp(1.2rem, 3vw, 2rem);
+            color: #ffd700;
+            font-style: italic;
+            margin-bottom: 50px;
+            animation: pulse 2s ease-in-out infinite;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 0.8;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.05);
+            }
+        }
+
+        /* Bouton de démarrage */
+        .start-button {
+            position: relative;
+            padding: 20px 60px;
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            font-weight: 900;
+            text-transform: uppercase;
+            color: white;
+            background: linear-gradient(135deg, #ff6b00, #ff8c00);
+            border: 3px solid #ffd700;
+            border-radius: 50px;
+            cursor: pointer;
+            letter-spacing: 3px;
+            box-shadow: 0 10px 40px rgba(255, 107, 0, 0.6),
+                        inset 0 -3px 10px rgba(0, 0, 0, 0.3);
+            animation: buttonPulse 2s ease-in-out infinite;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+        }
+
+        .start-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .start-button:hover::before {
+            width: 400px;
+            height: 400px;
+        }
+
+        .start-button:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 50px rgba(255, 107, 0, 0.8),
+                        inset 0 -3px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .start-button:active {
+            transform: translateY(-2px) scale(1.02);
+        }
+
+        @keyframes buttonPulse {
+            0%, 100% {
+                box-shadow: 0 10px 40px rgba(255, 107, 0, 0.6),
+                            inset 0 -3px 10px rgba(0, 0, 0, 0.3);
+            }
+            50% {
+                box-shadow: 0 15px 50px rgba(255, 107, 0, 0.9),
+                            0 0 30px rgba(255, 215, 0, 0.5),
+                            inset 0 -3px 10px rgba(0, 0, 0, 0.3);
+            }
+        }
+
+        /* Cercles d'énergie */
+        .energy-circle {
+            position: absolute;
+            border: 2px solid rgba(255, 107, 0, 0.3);
+            border-radius: 50%;
+            animation: expand 4s ease-out infinite;
+        }
+
+        .energy-circle:nth-child(1) {
+            width: 300px;
+            height: 300px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .energy-circle:nth-child(2) {
+            width: 500px;
+            height: 500px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation-delay: 1s;
+        }
+
+        .energy-circle:nth-child(3) {
+            width: 700px;
+            height: 700px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation-delay: 2s;
+        }
+
+        @keyframes expand {
+            0% {
+                transform: translate(-50%, -50%) scale(0.5);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        /* Symboles Naruto */
+        .naruto-symbol {
+            position: absolute;
+            font-size: 60px;
+            opacity: 0.2;
+            animation: rotate 20s linear infinite;
+        }
+
+        .naruto-symbol:nth-child(1) {
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .naruto-symbol:nth-child(2) {
+            top: 20%;
+            right: 15%;
+            animation-delay: 5s;
+        }
+
+        .naruto-symbol:nth-child(3) {
+            bottom: 15%;
+            left: 15%;
+            animation-delay: 10s;
+        }
+
+        .naruto-symbol:nth-child(4) {
+            bottom: 20%;
+            right: 10%;
+            animation-delay: 15s;
+        }
+
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Écran de jeu (caché au départ) */
+       
+
+        /* Animation de chargement */
+        .loading-text {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #ffd700;
+            font-size: 1.2rem;
+            opacity: 0;
+            animation: fadeInOut 2s ease-in-out infinite;
+        }
+
+        @keyframes fadeInOut {
+            0%, 100% {
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      }
+    
+      :root {
+        --primary: #0f3460;
+        --secondary: #e94560;
+        --accent: #4cc9f0;
+        --dark: #1a1a2e;
+        --darker: #16213e;
+        --light: #f1f1f1;
+        --player: #ff6b00;
+        --ai: #8a2be2;
+        --success: #4ade80;
+        --warning: #f59e0b;
+        --naruto-orange: #ff6b00;
+        --sasuke-blue: #2e5cb8;
+        --kakashi-silver: #a0a0a0;
+        --akatsuki-red: #c41e3a;
+      }
+    
+      body {
+        
+        /* background: linear-gradient(135deg, #0c1445 0%, #1a1a2e 100%); */
+        color: var(--light);
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: clamp(10px, 2vw, 20px);
+        background-image: url('https://e0.pxfuel.com/wallpapers/786/91/desktop-wallpaper-get-naruto-theme-for-ipod-iphone-epic-naruto.jpg');
+        background-size: cover;
+        background-attachment: fixed;
+        background-position: center;
+        position: relative;
+        overflow-x: hidden;
+      }
+    
+      body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(12, 20, 69, 0.4);
+        z-index: -1;
+      }
+    
+      .game-container {
+        width: 100%;
+        max-width: 1400px;
+        display: flex;
+        flex-direction: column;
+        gap: clamp(12px, 2vw, 20px);
+        background: rgba(15, 52, 96, 0.92);
+        border-radius: clamp(15px, 2vw, 25px);
+        padding: clamp(15px, 3vw, 30px);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7),
+          inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(15px);
+        border: 2px solid var(--naruto-orange);
+        animation: fadeIn 0.6s ease-out;
+      }
+    
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+    
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    
+      header {
+        text-align: center;
+        margin-bottom: clamp(10px, 2vw, 15px);
+        padding: clamp(10px, 2vw, 15px);
+        background: rgba(0, 0, 0, 0.6);
+        border-radius: clamp(12px, 2vw, 18px);
+        border: 2px solid var(--naruto-orange);
+        box-shadow: 0 4px 15px rgba(255, 107, 0, 0.3);
+        position: relative;
+        overflow: hidden;
+      }
+    
+      header::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(255, 107, 0, 0.1) 0%, transparent 70%);
+        animation: headerGlow 3s ease-in-out infinite;
+      }
+    
+      @keyframes headerGlow {
+    
+        0%,
+        100% {
+          transform: translate(0, 0);
+        }
+    
+        50% {
+          transform: translate(10px, 10px);
+        }
+      }
+    
+      h1 {
+        font-size: clamp(1.8rem, 5vw, 3.2rem);
+        margin-bottom: clamp(5px, 1vw, 10px);
+        background: linear-gradient(90deg, var(--naruto-orange), #ffd700, var(--naruto-orange));
+        background-size: 200% auto;
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        font-weight: 900;
+        letter-spacing: 2px;
+        position: relative;
+        animation: gradientShift 3s ease infinite;
+        text-transform: uppercase;
+      }
+    
+      @keyframes gradientShift {
+    
+        0%,
+        100% {
+          background-position: 0% 50%;
+        }
+    
+        50% {
+          background-position: 100% 50%;
+        }
+      }
+    
+      .subtitle {
+        font-size: clamp(0.9rem, 2vw, 1.3rem);
+        color: #ffd700;
+        font-style: italic;
+        text-shadow: 0 2px 8px rgba(255, 215, 0, 0.5);
+        position: relative;
+      }
+    
+      .game-info {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: clamp(10px, 2vw, 15px);
+        background: rgba(0, 0, 0, 0.75);
+        border-radius: clamp(12px, 2vw, 18px);
+        padding: clamp(12px, 2vw, 20px);
+        margin-bottom: clamp(8px, 1.5vw, 12px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4),
+          inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        border: 1px solid var(--sasuke-blue);
+      }
+    
+      .info-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+        padding: clamp(8px, 1.5vw, 12px);
+        background: rgba(46, 92, 184, 0.1);
+        border-radius: 10px;
+        transition: all 0.3s ease;
+      }
+    
+      .info-item:hover {
+        background: rgba(46, 92, 184, 0.2);
+        transform: translateY(-2px);
+      }
+    
+      .info-label {
+        font-size: clamp(0.75rem, 1.5vw, 0.95rem);
+        color: var(--accent);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-weight: 600;
+      }
+    
+      .info-value {
+        font-size: clamp(1.2rem, 3vw, 1.8rem);
+        font-weight: 900;
+        color: var(--light);
+        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+      }
+    
+      .zones-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: clamp(12px, 2vw, 20px);
+        margin-bottom: clamp(12px, 2vw, 20px);
+      }
+    
+      .zone {
+        min-height: clamp(200px, 30vw, 240px);
+        background-size: cover;
+        background-position: center;
+        border-radius: clamp(12px, 2vw, 18px);
+        padding: clamp(12px, 2vw, 18px);
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        border: 2px solid transparent;
+        position: relative;
+        overflow: hidden;
+      }
+    
+      .zone::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.65);
+        transition: background 0.4s ease;
+        z-index: 1;
+      }
+    
+      .zone::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(135deg, transparent, rgba(255, 107, 0, 0.1));
+        opacity: 0;
+        transition: opacity 0.4s ease;
+        z-index: 1;
+      }
+    
+      .zone>* {
+        position: relative;
+        z-index: 2;
+      }
+    
+      .zone:hover {
+        transform: translateY(-8px) scale(1.02);
+        border-color: var(--naruto-orange);
+        box-shadow: 0 15px 40px rgba(255, 107, 0, 0.4);
+      }
+    
+      .zone:hover::before {
+        background: rgba(0, 0, 0, 0.5);
+      }
+    
+      .zone:hover::after {
+        opacity: 1;
+      }
+    
+      .zone-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: clamp(10px, 2vw, 15px);
+        padding-bottom: clamp(8px, 1.5vw, 12px);
+        border-bottom: 2px solid rgba(255, 215, 0, 0.4);
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+    
+      .zone-name {
+        font-weight: 900;
+        color: #ffd700;
+        font-size: clamp(1rem, 2vw, 1.4rem);
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        letter-spacing: 1px;
+        text-transform: uppercase;
+      }
+    
+      .zone-effect {
+        font-size: clamp(0.7rem, 1.5vw, 0.85rem);
+        color: var(--light);
+        background: rgba(233, 69, 96, 0.7);
+        padding: clamp(4px, 1vw, 6px) clamp(8px, 1.5vw, 12px);
+        border-radius: 20px;
+        font-weight: 600;
+        white-space: nowrap;
+        box-shadow: 0 2px 8px rgba(233, 69, 96, 0.4);
+      }
+    
+      .zone-power {
+        display: flex;
+        justify-content: space-between;
+        margin-top: auto;
+        font-size: clamp(0.85rem, 1.8vw, 1.05rem);
+        font-weight: 900;
+        gap: 10px;
+      }
+    
+      .player-power {
+        color: var(--player);
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        background: rgba(255, 107, 0, 0.2);
+        padding: 5px 10px;
+        border-radius: 8px;
+      }
+    
+      .ai-power {
+        color: var(--ai);
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        background: rgba(138, 43, 226, 0.2);
+        padding: 5px 10px;
+        border-radius: 8px;
+      }
+    
+      .zone-cards {
+        display: flex;
+        flex-wrap: wrap;
+        gap: clamp(8px, 1.5vw, 12px);
+        flex-grow: 1;
+        min-height: clamp(100px, 20vw, 140px);
+        justify-content: center;
+        align-items: flex-start;
+      }
+    
+      .hand-container {
+        display: flex;
+        justify-content: center;
+        gap: clamp(10px, 2vw, 18px);
+        padding: clamp(15px, 3vw, 25px);
+        background: rgba(0, 0, 0, 0.75);
+        border-radius: clamp(12px, 2vw, 18px);
+        box-shadow: 0 -6px 20px rgba(0, 0, 0, 0.5),
+          inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        border: 2px solid var(--naruto-orange);
+        flex-wrap: wrap;
+        overflow-x: auto;
+        scrollbar-width: thin;
+        scrollbar-color: var(--naruto-orange) rgba(0, 0, 0, 0.3);
+      }
+    
+      .hand-container::-webkit-scrollbar {
+        height: 8px;
+      }
+    
+      .hand-container::-webkit-scrollbar-track {
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 10px;
+      }
+    
+      .hand-container::-webkit-scrollbar-thumb {
+        background: var(--naruto-orange);
+        border-radius: 10px;
+      }
+    
+      .card {
+        width: clamp(110px, 15vw, 150px);
+        height: clamp(150px, 21vw, 200px);
+        background-size: cover;
+        background-position: center;
+        border-radius: clamp(10px, 1.5vw, 15px);
+        padding: clamp(10px, 1.5vw, 14px);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        cursor: grab;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+        position: relative;
+        overflow: hidden;
+        border: 3px solid var(--naruto-orange);
+        flex-shrink: 0;
+      }
+    
+      .card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.55);
+        transition: background 0.3s ease;
+        z-index: 1;
+      }
+    
+      .card>* {
+        position: relative;
+        z-index: 2;
+      }
+    
+      .card:hover {
+        transform: translateY(-15px) scale(1.08);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
+      }
+    
+      .card:hover::before {
+        background: rgba(0, 0, 0, 0.4);
+      }
+    
+      .card:active {
+        cursor: grabbing;
+        transform: translateY(-10px) scale(1.05);
+      }
+    
+      .card.player-card {
+        border-color: var(--player);
+        box-shadow: 0 8px 20px rgba(255, 107, 0, 0.4);
+      }
+    
+      .card.ai-card {
+        border-color: var(--ai);
+        box-shadow: 0 8px 20px rgba(138, 43, 226, 0.4);
+      }
+    
+      .card-cost {
+        position: absolute;
+        top: clamp(6px, 1vw, 10px);
+        left: clamp(6px, 1vw, 10px);
+        background: linear-gradient(135deg, var(--naruto-orange), #ff8c00);
+        width: clamp(26px, 4vw, 32px);
+        height: clamp(26px, 4vw, 32px);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 900;
+        font-size: clamp(0.85rem, 1.5vw, 1rem);
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.6);
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        z-index: 3;
+      }
+    
+      .card-power {
+        position: absolute;
+        bottom: clamp(6px, 1vw, 10px);
+        right: clamp(6px, 1vw, 10px);
+        background: linear-gradient(135deg, var(--sasuke-blue), #4a7ddb);
+        width: clamp(26px, 4vw, 32px);
+        height: clamp(26px, 4vw, 32px);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 900;
+        font-size: clamp(0.85rem, 1.5vw, 1rem);
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.6);
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        z-index: 3;
+      }
+    
+      .card-name {
+        text-align: center;
+        font-weight: 900;
+        margin-top: clamp(28px, 5vw, 36px);
+        font-size: clamp(0.85rem, 1.8vw, 1.1rem);
+        color: white;
+        text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.9);
+        letter-spacing: 0.5px;
+        line-height: 1.2;
+      }
+    
+      .card-effect {
+        font-size: clamp(0.65rem, 1.2vw, 0.75rem);
+        text-align: center;
+        margin-top: clamp(6px, 1.5vw, 10px);
+        color: rgba(255, 255, 255, 0.95);
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.9);
+        background: rgba(0, 0, 0, 0.6);
+        padding: clamp(4px, 0.8vw, 6px);
+        border-radius: 6px;
+        line-height: 1.3;
+      }
+    
+      .controls {
+        display: flex;
+        justify-content: center;
+        gap: clamp(12px, 2vw, 20px);
+        margin-top: clamp(8px, 1.5vw, 12px);
+        flex-wrap: wrap;
+      }
+    
+      button {
+        padding: clamp(10px, 2vw, 14px) clamp(20px, 4vw, 30px);
+        background: linear-gradient(135deg, var(--naruto-orange), #ff8c00);
+        border: none;
+        border-radius: 50px;
+        color: white;
+        font-weight: 900;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 6px 15px rgba(255, 107, 0, 0.4);
+        font-size: clamp(0.9rem, 1.8vw, 1.1rem);
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        position: relative;
+        overflow: hidden;
+      }
+    
+      button::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.3);
+        transform: translate(-50%, -50%);
+        transition: width 0.6s, height 0.6s;
+      }
+    
+      button:hover::before {
+        width: 300px;
+        height: 300px;
+      }
+    
+      button:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 25px rgba(255, 107, 0, 0.6);
+      }
+    
+      button:active {
+        transform: translateY(-2px);
+      }
+    
+      button:disabled {
+        background: linear-gradient(135deg, #4a5568, #2d3748);
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+        opacity: 0.6;
+      }
+    
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.85);
+        z-index: 100;
+        justify-content: center;
+        align-items: center;
+        backdrop-filter: blur(8px);
+        animation: modalFadeIn 0.3s ease;
+      }
+    
+      @keyframes modalFadeIn {
+        from {
+          opacity: 0;
+        }
+    
+        to {
+          opacity: 1;
+        }
+      }
+    
+      .modal-content {
+        background: linear-gradient(135deg, #0c1445 0%, #1a1a2e 100%);
+        padding: clamp(25px, 5vw, 40px);
+        border-radius: clamp(15px, 3vw, 25px);
+        text-align: center;
+        max-width: 600px;
+        width: 90%;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+        border: 3px solid var(--naruto-orange);
+        animation: modalSlideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+    
+      @keyframes modalSlideIn {
+        from {
+          transform: translateY(-50px) scale(0.9);
+          opacity: 0;
+        }
+    
+        to {
+          transform: translateY(0) scale(1);
+          opacity: 1;
+        }
+      }
+    
+      .modal h2 {
+        font-size: clamp(2rem, 5vw, 3rem);
+        margin-bottom: clamp(15px, 3vw, 25px);
+        background: linear-gradient(90deg, var(--naruto-orange), #ffd700);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        font-weight: 900;
+        text-transform: uppercase;
+      }
+    
+      .modal p {
+        margin-bottom: clamp(15px, 3vw, 25px);
+        font-size: clamp(1rem, 2vw, 1.3rem);
+        color: white;
+        line-height: 1.6;
+      }
+    
+      .energy-bar {
+        width: 100%;
+        height: clamp(8px, 1.5vw, 12px);
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 20px;
+        margin-top: clamp(5px, 1vw, 8px);
+        overflow: hidden;
+        box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.5);
+      }
+    
+      .energy-fill {
+        height: 100%;
+        background: linear-gradient(90deg, var(--naruto-orange), #ff8c00, #ffd700);
+        background-size: 200% 100%;
+        border-radius: 20px;
+        transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 0 15px rgba(255, 107, 0, 0.6);
+        animation: energyGlow 2s ease-in-out infinite;
+      }
+    
+      @keyframes energyGlow {
+    
+        0%,
+        100% {
+          background-position: 0% 50%;
+          box-shadow: 0 0 15px rgba(255, 107, 0, 0.6);
+        }
+    
+        50% {
+          background-position: 100% 50%;
+          box-shadow: 0 0 25px rgba(255, 215, 0, 0.8);
+        }
+      }
+    
+      @keyframes cardDraw {
+        0% {
+          transform: scale(0.5) rotateY(90deg);
+          opacity: 0;
+        }
+    
+        100% {
+          transform: scale(1) rotateY(0deg);
+          opacity: 1;
+        }
+      }
+    
+      .card-draw {
+        animation: cardDraw 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+    
+      @keyframes pulse {
+    
+        0%,
+        100% {
+          transform: scale(1);
+        }
+    
+        50% {
+          transform: scale(1.08);
+        }
+      }
+    
+      .pulse {
+        animation: pulse 1.2s ease-in-out infinite;
+      }
+    
+      .rarity-common {
+        border-color: silver !important;
+        box-shadow: 0 8px 20px rgba(192, 192, 192, 0.4);
+      }
+    
+      .rarity-rare {
+        border-color: #007bff !important;
+        box-shadow: 0 8px 25px rgba(0, 123, 255, 0.6);
+      }
+    
+      .rarity-epic {
+        border-color: #ff00ff !important;
+        box-shadow: 0 8px 30px rgba(255, 0, 255, 0.7);
+      }
+    
+      .rarity-legendary {
+        border-color: #ffd700 !important;
+        box-shadow: 0 8px 35px rgba(255, 215, 0, 0.8);
+        animation: legendaryGlow 2s ease-in-out infinite;
+      }
+    
+      @keyframes legendaryGlow {
+    
+        0%,
+        100% {
+          box-shadow: 0 8px 35px rgba(255, 215, 0, 0.8);
+        }
+    
+        50% {
+          box-shadow: 0 12px 45px rgba(255, 215, 0, 1);
+        }
+      }
+    
+      /* Responsive pour tablettes */
+      @media (max-width: 1024px) {
+        .zones-container {
+          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        }
+      }
+    
+      /* Responsive pour mobiles */
+      @media (max-width: 768px) {
+        body {
+          padding: 10px;
+          background-attachment: scroll;
+        }
+    
+        .game-container {
+          padding: 15px;
+          gap: 12px;
+        }
+    
+        .zones-container {
+          grid-template-columns: 1fr;
+          gap: 15px;
+        }
+    
+        .game-info {
+          grid-template-columns: repeat(2, 1fr);
+          gap: 10px;
+          padding: 15px;
+        }
+    
+        .hand-container {
+          gap: 10px;
+          padding: 15px;
+          justify-content: flex-start;
+        }
+    
+        .card {
+          width: 105px;
+          height: 145px;
+        }
+    
+        .zone {
+          min-height: 180px;
+        }
+      }
+    
+      /* Responsive pour petits mobiles */
+      @media (max-width: 480px) {
+        .game-info {
+          grid-template-columns: 1fr;
+        }
+    
+        .card {
+          width: 95px;
+          height: 130px;
+        }
+    
+        .controls {
+          gap: 10px;
+        }
+    
+        button {
+          padding: 10px 18px;
+          font-size: 0.85rem;
+        }
+    
+        .zone-header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+    
+        .zone-effect {
+          align-self: flex-start;
+        }
+      }
+    
+      /* Amélioration de l'accessibilité */
+      @media (prefers-reduced-motion: reduce) {
+    
+        *,
+        *::before,
+        *::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+        }
+      }
+    
+      /* Mode sombre forcé pour les écrans qui le supportent */
+      @media (prefers-color-scheme: dark) {
+        body {
+          background: linear-gradient(135deg, #0a0f2e 0%, #0c0c18 100%);
+        }
+      }
+
+
+      /* Sélecteur de langue */
+/* STYLE POUR LE BOUTON DE LANGUE */
+.language-switcher {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    gap: 10px;
+    z-index: 1000;
+}
+
+.lang-btn {
+    padding: 12px 20px;
+    background: linear-gradient(135deg, #ff6b00, #ff8c00);
+    border: 2px solid #ffd700;
+    border-radius: 25px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+    box-shadow: 0 4px 15px rgba(255, 107, 0, 0.4);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.lang-btn:hover {
+    background: linear-gradient(135deg, #ff8c00, #ffa500);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(255, 107, 0, 0.6);
+}
+
+.lang-btn:active {
+    transform: translateY(-1px);
+}
+
+/* Pour la version arabe, inverser la position */
+[dir="rtl"] .language-switcher {
+    right: auto;
+    left: 20px;
+}
+    </style>
+</head>
+
+<body>
+    <!-- Écran d'introduction -->
+    <div id="intro-screen">
+
+        <!-- Particules animées -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Cercles d'énergie -->
+    <div class="energy-circle"></div>
+    <div class="energy-circle"></div>
+    <div class="energy-circle"></div>
+
+    <!-- Symboles Naruto -->
+    <div class="naruto-symbol">🍥</div>
+    
+    <!-- Sélecteur de langue -->
+    <div class="language-switcher">
+        <button class="lang-btn" onclick="changeLanguage('fr')">Français</button>
+        <button class="lang-btn" onclick="changeLanguage('en')">English</button>
+    </div>
+        <!-- Particules animées -->
+        <div class="particles" id="particles"></div>
+
+        <!-- Cercles d'énergie -->
+        <div class="energy-circle"></div>
+        <div class="energy-circle"></div>
+        <div class="energy-circle"></div>
+
+        <!-- Symboles Naruto -->
+        <div class="naruto-symbol">🍥</div>
+        <!-- Logo et titre -->
+        <div class="logo-container">
+            <h1 class="main-title">معركة الأبطال</h1>
+            <p class="subtitle">نسخة ناروتو - داتيبايو!</p>
+            <button class="start-button" id="start-btn">
+                <span>ابدأ اللعبة</span>
+            </button>
+        </div>
+
+        <div class="loading-text">يتم التحضير للمعركة...</div>
+    </div>
+
+    <div class="game-container">
+        <header>
+            <h1>معركة الأبطال - نسخة ناروتو</h1>
+            <p class="subtitle">داتيبايو! تحكم في قريتين من أصل 3 للفوز!</p>
+        </header>
+
+        <div class="game-info">
+            <audio id="intro-audio" autoplay loop hidden>
+                <source src="/game song.mp3" type="audio/mp3">
+            </audio>
+
+            <div class="info-item">
+                <div class="info-label">الدورة</div>
+                <div class="info-value" id="turn-display">1</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">تشاكرا</div>
+                <div class="info-value" id="energy-display">1</div>
+                <div class="energy-bar">
+                    <div class="energy-fill" id="energy-fill" style="width: 16.66%"></div>
+                </div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">القرى المسيطر عليها</div>
+                <div class="info-value" id="zones-controlled">0</div>
+            </div>
+        </div>
+
+        <div class="zones-container">
+            <div class="zone" id="zone-1" data-effect="boost-power-1"
+                style="background-image: url('https://i.pinimg.com/564x/16/1e/8f/161e8fb3abe44600fa3686be06dda35d.jpg')">
+                <div class="zone-header">
+                    <div class="zone-name">كونوها</div>
+                    <div class="zone-effect">+1 قوة</div>
+                </div>
+                <div class="zone-cards" id="zone-1-cards">
+                    <!-- Cartes jouées ici -->
+                </div>
+                <div class="zone-power">
+                    <span class="player-power" id="zone-1-player">0</span>
+                    <span class="ai-power" id="zone-1-ai">0</span>
+                </div>
+            </div>
+
+            <div class="zone" id="zone-2" data-effect="none"
+                style="background-image: url('https://cdn.shopify.com/s/files/1/0046/2779/1960/files/suna.jpg?v=1583511326')">
+                <div class="zone-header">
+                    <div class="zone-name">سونا</div>
+                    <div class="zone-effect">لا تأثير</div>
+                </div>
+                <div class="zone-cards" id="zone-2-cards">
+                    <!-- Cartes jouées ici -->
+                </div>
+                <div class="zone-power">
+                    <span class="player-power" id="zone-2-player">0</span>
+                    <span class="ai-power" id="zone-2-ai">0</span>
+                </div>
+            </div>
+
+            <div class="zone" id="zone-3" data-effect="bonus-energy"
+                style="background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLSLr7-gU3ywkjzcOXmUhieNMjpq5lmElrNg&s')">
+                <div class="zone-header">
+                    <div class="zone-name">كيري</div>
+                    <div class="zone-effect">+1 تشاكرا</div>
+                </div>
+                <div class="zone-cards" id="zone-3-cards">
+                    <!-- Cartes jouées ici -->
+                </div>
+                <div class="zone-power">
+                    <span class="player-power" id="zone-3-player">0</span>
+                    <span class="ai-power" id="zone-3-ai">0</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="hand-container" id="player-hand">
+            <!-- Cartes de la main du joueur ici -->
+        </div>
+
+        <div class="controls">
+            <button id="end-turn-btn">إنهاء الدور</button>
+            <button id="restart-btn">لعبة جديدة</button>
+        </div>
+    </div>
+
+    <div class="modal" id="game-over-modal">
+        <div class="modal-content">
+            <h2 id="game-result">انتصار!</h2>
+            <p id="game-message">لقد سيطرت على قريتين من أصل 3!</p>
+            <button id="play-again-btn">العب مرة أخرى</button>
+        </div>
+    </div>
+
+    <script>
+        // Sons
+    const soundCard = new Audio("/card.mp3");
+    const soundWin = new Audio("/win.mp3");
+    const soundLose = new Audio("/lose.mp3");
+    
+    function playSound(sound) {
+      sound.currentTime = 0;
+      sound.play().catch(e => console.log("Audio play failed:", e));
+    }
+
+    // Fonction de mélange
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    // Deck Naruto avec images
+    const deck = [
+      { 
+        id: "1", 
+        name: "Sai", 
+        cost: 1, 
+        power: 4, 
+        effect: { type: "zone-boost", zone: "zone-1", value: 2 }, 
+        rarity: "epic",
+        image: "https://i.pinimg.com/564x/ee/59/f3/ee59f3175b63dab1559a9293254a11ec.jpg",
+        sound: "/sai.mp3"
+      },
+      { 
+        id: "2", 
+        name: "Sasuke Uchiha", 
+        cost: 4, 
+        power: 5, 
+        effect: { type: "destroy", target: "highest-power" }, 
+        rarity: "epic",
+        image: "https://i.pinimg.com/1200x/34/f7/4e/34f74e6c730dd88df07fc3ecfa054ebc.jpg",
+        sound: "/sasuki.mp3"
+      },
+      { 
+        id: "3", 
+        name: "Kakashi Hatake", 
+        cost: 3, 
+        power: 4, 
+        effect: { type: "copy-effect" }, 
+        rarity: "rare",
+        image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQ-mOE6vMtffZmiuTrHlF3mt_JtJb0bkmSfg&s",
+        sound: "/kakashi.MP3"
+      },
+      { 
+        id: "4", 
+        name: "Sakura Haruno", 
+        cost: 2, 
+        power: 3, 
+        effect: { type: "on-play", value: "+1-power-all" }, 
+        rarity: "rare",
+        image: "https://i.pinimg.com/736x/bf/c7/10/bfc710d8dfd1583af707d4385447e1d7.jpg",
+        sound: "/sakura.MP3"
+      },
+      { 
+        id: "5", 
+        name: "Jiraya", 
+        cost: 5, 
+        power: 6, 
+        effect: { type: "draw-card" }, 
+        rarity: "legendary",
+        image: "https://i.pinimg.com/474x/e3/98/4e/e3984e8b3870e7bf6ab4f86f964ac74a.jpg",
+        sound: "/jiraya.MP3"
+      },
+      { 
+        id: "6", 
+        name: "Gaara", 
+        cost: 4, 
+        power: 5, 
+        effect: { type: "shield", value: 2 }, 
+        rarity: "epic",
+        image: "https://pbs.twimg.com/media/E-_34RyWUAEOF19.jpg",
+        sound: "/gaara.MP3"
+      },
+      { 
+        id: "7", 
+        name: "Rock Lee", 
+        cost: 2, 
+        power: 4, 
+        effect: { type: "on-play", value: "+1-energy" }, 
+        rarity: "rare",
+        image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkGSzXvDHouNGugWN2M1RVfuVaO4dVJTEawQ&s",
+        sound: "/rock lee.mp3"
+      },
+      { 
+        id: "8", 
+        name: "Hinata Hyuga", 
+        cost: 2, 
+        power: 3, 
+        effect: { type: "zone-boost", zone: "zone-2", value: 1 }, 
+        rarity: "common",
+        image: "https://i.pinimg.com/474x/c2/f5/dc/c2f5dcf5086791b638a04b1716ef75dd.jpg",
+        sound: "/hinata.mp3"
+      },
+      { 
+        id: "9", 
+        name: "Madara Uchiwa", 
+        cost: 5, 
+        power: 7, 
+        effect: { type: "stun-opponent" }, 
+        rarity: "rare",
+        image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDW8CT7KYDJo4ZM-_fhiRkSB4Cx7LB7Ciyyw&s",
+        sound: "/madara.MP3"
+      },
+      { 
+        id: "10", 
+        name: "Itachi Uchiha", 
+        cost: 6, 
+        power: 7, 
+        effect: { type: "destroy", target: "all" }, 
+        rarity: "legendary",
+        image: "https://i.pinimg.com/736x/94/f0/91/94f091255c36721cd801994612e7650f.jpg",
+        sound: "/itachi.mp3"
+      },
+      { 
+        id: "11", 
+        name: "Pain", 
+        cost: 5, 
+        power: 6, 
+        effect: { type: "zone-boost", zone: "zone-3", value: 3 }, 
+        rarity: "epic",
+        image: "https://i.pinimg.com/originals/48/16/85/481685ff465c16f3c20e37562422eb2a.jpg",
+        sound: "/pain.MP3"
+      },
+      { 
+        id: "12", 
+        name: "Orochimaru", 
+        cost: 4, 
+        power: 5, 
+        effect: { type: "revive" }, 
+        rarity: "epic",
+        image: "https://i.pinimg.com/736x/82/03/32/82033220f20d6ae4bd25627ddb330828.jpg",
+        sound: "/orochimaro.mp3"
+      },
+        {
+    id: "13",
+    name: "Neji Hyūga",
+    cost: 3,
+    power: 3,
+    rarity: "epic",
+    image: "https://i.pinimg.com/564x/56/c1/d3/56c1d36f04f5d0c73e4c43ca4d6b1aef.jpg",
+    sound: "/neji.mp3",  // 👉 mets ton son ici
+    effect: { 
+      type: "chakra-drain", 
+      value: 2 
+    },
+    description: "Prodige du clan Hyūga. Grâce à son Byakugan et au Jūken, il bloque le chakra de ses ennemis."
+  },
+  
+  {
+    id: "14",
+    name: "Konan",
+    cost: 4,
+    power: 5,
+    rarity: "epic",
+    image: "https://i.pinimg.com/564x/ce/85/d6/ce85d61791c868f6e3f9f58ddbfe850c.jpg",
+    sound: "/konan.MP3",
+    effect: { type: "revive" }
+  },
+  {
+    id: "15",
+    name: "Kisame Hoshigaki",
+    cost: 5,
+    power: 7,
+    rarity: "epic",
+    image: "https://i.pinimg.com/564x/b3/90/f0/b390f05d1a6920485cee2de79e5c7c04.jpg",
+    sound: "/kisame.mp3",
+    effect: { type: "chakra-drain", value: 3 }
+  },
+  {
+    id: "16",
+    name: "Deidara",
+    cost: 4,
+    power: 6,
+    rarity: "epic",
+    image: "https://i.pinimg.com/564x/78/3b/55/783b55eb0495b686a0cb6ae081417ce9.jpg",
+    sound: "/deidara.mp3",
+    effect: { type: "explosion", value: 3 }
+  },
+  {
+    id: "17",
+    name: "Hidan",
+    cost: 3,
+    power: 5,
+    rarity: "rare",
+    image: "https://i.pinimg.com/originals/42/9b/96/429b96bffa34953b44e9fb8a53436456.png",
+    sound: "/hidan.mp3",
+    effect: { type: "immortality" }
+  },
+  {
+    id: "18",
+    name: "Obito Uchiha (Tobi)",
+    cost: 6,
+    power: 8,
+    rarity: "legendary",
+    image: "https://i.pinimg.com/564x/98/40/58/98405804dc0bca6a3f660d7e40635197.jpg",
+    sound: "/obito.MP3",
+    effect: { type: "double-attack" }
+  },
+  {
+    id: "19",
+    name: "Tsunade Senju",
+    cost: 5,
+    power: 6,
+    rarity: "epic",
+    image: "https://i.pinimg.com/564x/53/55/f0/5355f0e2e3c69d19d778542af342d0bc.jpg",
+    sound: "/tsonadi.MP3",
+    effect: { type: "heal", value: 4 }
+  },
+  {
+    id: "20",
+    name: "Minato Namikaze",
+    cost: 6,
+    power: 8,
+    rarity: "legendary",
+    image: "https://i.pinimg.com/originals/e3/b9/1f/e3b91fb45aa91e7e70ad4425a883f6e2.jpg",
+    sound: "/minato.MP3",
+    effect: { type: "stun-opponent" }
+  },
+  {
+    id: "21",
+    name: "Hashirama Senju",
+    cost: 7,
+    power: 10,
+    rarity: "legendary",
+    image: "https://i.pinimg.com/564x/34/1c/13/341c139bdf26a48a550a5236869374df.jpg",
+    sound: "/hachirama.MP3",
+    effect: { type: "shield", value: 5 }
+  },
+  {
+    id: "22",
+    name: "Kurama (Kyūbi)",
+    cost: 6,
+    power: 12,
+    rarity: "legendary",
+    image: "https://images.fineartamerica.com/images/artworkimages/medium/3/naruto-vs-kurama-thor-raib.jpg",
+    sound: "/kurama.mp3",
+    effect: { type: "rage-mode", value: 6 }
+  },
+  {
+    id: "23",
+    name: "Danzo Shimura",
+    cost: 6,
+    power: 8,
+    rarity: "epic",
+    image: "https://i.pinimg.com/236x/b7/74/0a/b7740a4b5845c9d89fae2e4c4350a9b0.jpg",
+    sound: "/danzo.mp3",
+    effect: { type: "shield", value: 3 }
+  },
+  {
+    id: "24",
+    name: "Kabuto Yakushi",
+    cost: 6,
+    power: 9,
+    rarity: "epic",
+    image: "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/2a6bf3c3-ed4e-4d52-85b6-2692a3b8eeac/dcshjo6-df697ea5-59d1-4f39-ad04-9a6c2e9f35ef.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiIvZi8yYTZiZjNjMy1lZDRlLTRkNTItODViNi0yNjkyYTNiOGVlYWMvZGNzaGpvNi1kZjY5N2VhNS01OWQxLTRmMzktYWQwNC05YTZjMmU5ZjM1ZWYucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.-XInsrrLPgGA4OSH5_To8U8NDUmenZ3VcBA-MGqUZRM",
+    sound: "/kabuto.mp3",
+    effect: { type: "explosion", value: 4 }
+  },
+  {
+    id: "25",
+    name: "Shisui Uchiha",
+    cost: 5,
+    power: 8,
+    rarity: "rare",
+    image: "https://i.pinimg.com/564x/e9/42/9b/e9429b56aca75f06d78507bf78a85332.jpg",
+    sound: "/Shisui.mp3",
+    effect: { type: "shield", value: 2 }
+  },
+  {
+    id: "26",
+    name: "Naruto Uzumaki",
+    cost: 6,
+    power: 9,
+    rarity: "epic",
+    image: "https://i.pinimg.com/736x/31/15/f9/3115f98baf38ea13159b8d8ed9205253.jpg",
+    sound: "/naruto.mp3",
+    effect: { type: "attack", value: 3 }
+  },
+  {
+    id: "27",
+    name: "Zetsu",
+    cost: 6,
+    power: 8,
+    rarity: "rare",
+    image: "https://i.pinimg.com/736x/54/cd/bb/54cdbb7e00688832cda096aefd8a58e4.jpg",
+    sound: "/zetsu.mp3",
+    effect: { type: "poison", value: 2 }
+  },
+  {
+    id: "28",
+    name: "Sasori",
+    cost: 6,
+    power: 9,
+    rarity: "epic",
+    image: "https://i.pinimg.com/474x/9d/e6/9d/9de69df2433f2768a15d008c7da09f33.jpg",
+    sound: "/sasori.mp3",
+    effect: { type: "revive" }
+  },
+  {
+    id: "29",
+    name: "Gyūki (Hachibi)",
+    cost: 7,
+    power: 11,
+    rarity: "legendary",
+    image: "https://i.pinimg.com/originals/e4/d0/dc/e4d0dc359222f9fa38e010fb9f7283be.jpg",
+    sound: "/hhhh.MP3",
+    effect: { type: "destroy", target: "highest-power" }
+  },
+  {
+    id: "30",
+    name: "Ten-Tails (Jūbi)",
+    cost: 10,
+    power: 15,
+    rarity: "mythic",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSd1t5U_X84pwqFLUKpsfFxF1EDa_iRyqcj2akybqFXtFeXey2SNQey6ZLifweVQ45gI-I&usqp=CAU",
+    sound: "/Jūbii.mp3",
+    effect: { type: "zone-boost", zone: "zone-3", value: 6 },
+  },
+  // {
+  //   id: 31,
+  //   name: "Yamato",
+  //   cost: 4,
+  //   power: 5,
+  //   rarity: "rare",
+  //   image: "https://i.pinimg.com/564x/1e/47/4b/1e474b209af4eac3cbbbf03c46449619.jpg",
+  //   sound: "/sounds/yamato.mp3",
+  //   effect: { type: "grow-forest", value: 3 }
+  // }
+];
+
+    // Images de remplacement si les liens ne fonctionnent pas
+    const fallbackImages = {
+      "1": "https://i.imgur.com/8Qm7Q9a.png",
+      "2": "https://i.imgur.com/9Qm7Q9a.png",
+      "3": "https://i.imgur.com/0Qm7Q9a.png",
+      "4": "https://i.imgur.com/1Qm7Q9a.png",
+      "5": "https://i.imgur.com/2Qm7Q9a.png",
+      "6": "https://i.imgur.com/3Qm7Q9a.png",
+      "7": "https://i.imgur.com/4Qm7Q9a.png",
+      "8": "https://i.imgur.com/5Qm7Q9a.png",
+      "9": "https://i.imgur.com/6Qm7Q9a.png",
+      "10": "https://i.imgur.com/7Qm7Q9a.png",
+      "11": "https://i.imgur.com/8Qm7Q9b.png",
+      "12": "https://i.imgur.com/9Qm7Q9b.png"
+    };
+
+    // État du jeu
+    let gameState = {
+      turn: 1,
+      maxTurns: 11,
+      playerEnergy: 1,
+      playerDeck: [],
+      playerHand: [],
+      opponentDeck: [],
+      opponentHand: [],
+      playedCards: {
+        player: [[], [], []],
+        opponent: [[], [], []]
+      },
+      zonePowers: {
+        player: [0, 0, 0],
+        opponent: [0, 0, 0]
+      },
+      zoneControl: [null, null, null],
+      selectedCard: null,
+      selectedZone: null,
+      gameOver: false,
+      aiStunned: false
+    };
+
+    // Initialisation du jeu
+// Initialisation du jeu améliorée
+function initGame() {
+  gameState = {
+    turn: 1,
+    maxTurns: 11,
+    playerEnergy: 1,
+    playerDeck: shuffle([...deck]),
+    playerHand: [],
+    opponentDeck: shuffle([...deck]),
+    opponentHand: [],
+    playedCards: {
+      player: [[], [], []],
+      opponent: [[], [], []]
+    },
+    zonePowers: {
+      player: [0, 0, 0],
+      opponent: [0, 0, 0]
+    },
+    zoneControl: [null, null, null],
+    selectedCard: null,
+    selectedZone: null,
+    gameOver: false,
+    aiStunned: false
+  };
+
+  // Piocher des mains équilibrées
+  drawBalancedHand();
+
+  updateUI();
+  document.getElementById('game-over-modal').style.display = 'none';
+  
+  // Afficher un conseil pour le premier tour
+  showTurnTip();
+}
+
+
+
+// Afficher des conseils selon le tour et l'énergie disponible
+function showTurnTip() {
+  const tips = [
+    "الجولة 1: العب بطاقة تكلفة 1-2 للبدء!",
+    "الجولة 2: لديك 2 شاكرا، رتب أولويات البطاقات المفيدة!",
+    "الجولة 3: فكر في السيطرة على منطقتين على الأقل!",
+    "الجولة 4: استخدم تأثيراتك الخاصة بشكل استراتيجي!",
+    "الجولة 5: حان وقت لعب بطاقاتك الأسطورية!",
+    "الجولة 6: ركز على المناطق التي يمكنك الفوز بها!",
+    "الجولة 7: ركز على المناطق التي يمكنك الفوز بها!",
+    "الجولة 8: ركز على المناطق التي يمكنك الفوز بها!",
+    "الجولة 9: ركز على المناطق التي يمكنك الفوز بها!",
+    "الجولة 10: ركز على المناطق التي يمكنك الفوز بها!"
+  ];
+  
+  const tipIndex = Math.min(gameState.turn - 1, tips.length - 1);
+  const tip = tips[tipIndex];
+  
+  // Afficher le conseil temporairement
+  const tipElement = document.createElement('div');
+  tipElement.style.cssText = `
+    position: fixed;
+    top: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(255, 107, 0, 0.9);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: bold;
+    z-index: 1000;
+    box-shadow: 0 4px 15px rgba(255, 107, 0, 0.5);
+    border: 2px solid #ffd700;
+    text-align: center;
+    max-width: 80%;
+  `;
+  tipElement.textContent = tip;
+  tipElement.id = 'turn-tip';
+  
+  document.body.appendChild(tipElement);
+  
+  // Supprimer après 3 secondes
+  setTimeout(() => {
+    if (document.getElementById('turn-tip')) {
+      document.body.removeChild(tipElement);
+    }
+  }, 3000);
+}
+    // Mettre à jour l'interface utilisateur
+    function updateUI() {
+      // Mettre à jour les compteurs
+      document.getElementById('turn-display').textContent = gameState.turn;
+      document.getElementById('energy-display').textContent = gameState.playerEnergy;
+      document.getElementById('energy-fill').style.width = `${(gameState.playerEnergy / 6) * 100}%`;
+      
+      // Mettre à jour les zones contrôlées
+      const playerZones = gameState.zoneControl.filter(control => control === true).length;
+      document.getElementById('zones-controlled').textContent = playerZones;
+      
+      // Mettre à jour les puissances des zones
+      for (let i = 0; i < 3; i++) {
+        document.getElementById(`zone-${i+1}-player`).textContent = gameState.zonePowers.player[i];
+        document.getElementById(`zone-${i+1}-ai`).textContent = gameState.zonePowers.opponent[i];
+      }
+      
+      // Mettre à jour les cartes jouées dans les zones
+      for (let i = 0; i < 3; i++) {
+        const zoneCardsElement = document.getElementById(`zone-${i+1}-cards`);
+        zoneCardsElement.innerHTML = '';
+        
+        // Afficher les cartes du joueur
+        gameState.playedCards.player[i].forEach(card => {
+          const cardElement = createCardElement(card, 'player');
+          cardElement.classList.add('played');
+          zoneCardsElement.appendChild(cardElement);
+        });
+        
+        // Afficher les cartes de l'IA
+        gameState.playedCards.opponent[i].forEach(card => {
+          const cardElement = createCardElement(card, 'ai');
+          cardElement.classList.add('played');
+          zoneCardsElement.appendChild(cardElement);
+        });
+      }
+      
+      // Mettre à jour la main du joueur
+      const playerHandElement = document.getElementById('player-hand');
+      playerHandElement.innerHTML = '';
+      
+      gameState.playerHand.forEach(card => {
+        const cardElement = createCardElement(card, 'player');
+        cardElement.classList.add('card-draw');
+        
+        // Désactiver les cartes trop chères
+        if (card.cost > gameState.playerEnergy) {
+          cardElement.style.opacity = '0.5';
+          cardElement.style.cursor = 'not-allowed';
+        } else {
+          cardElement.addEventListener('click', () => selectCard(card));
+          cardElement.addEventListener('dragstart', (e) => {
+            e.dataTransfer.setData('cardId', card.id);
+          });
+        }
+        
+        playerHandElement.appendChild(cardElement);
+      });
+      
+      // Mettre à jour le bouton de fin de tour
+      document.getElementById('end-turn-btn').disabled = gameState.gameOver;
+    }
+
+    // Créer un élément carte
+    function createCardElement(card, owner) {
+      const cardElement = document.createElement('div');
+      cardElement.className = `card ${owner}-card rarity-${card.rarity}`;
+      cardElement.dataset.cardId = card.id;
+      cardElement.draggable = true;
+      
+      // Utiliser l'image de la carte ou une image de remplacement
+      const imageUrl = card.image || fallbackImages[card.id] || 'https://i.imgur.com/8Qm7Q9a.png';
+      cardElement.style.backgroundImage = `url(${imageUrl})`;
+      
+      cardElement.innerHTML = `
+        <div class="card-cost">${card.cost}</div>
+        <div class="card-name">${card.name}</div>
+        <div class="card-effect">${card.effect ? getEffectDescription(card.effect) : 'Aucun effet'}</div>
+        <div class="card-power">${card.power}</div>
+      `;
+      
+      return cardElement;
+    }
+
+// Fonction pour obtenir la description détaillée de l'effet
+ function getEffectDescription(effect) {
+            if (!effect) return 'لا تأثير خاص';
+            
+            switch(effect.type) {
+                case 'zone-boost':
+                    const zoneName = effect.zone === 'zone-1' ? 'كونوها' : 
+                                    effect.zone === 'zone-2' ? 'سونا' : 
+                                    effect.zone === 'zone-3' ? 'كيري' : 'منطقة غير معروفة';
+                    return `+${effect.value} قوة في ${zoneName}`;
+                
+                case 'on-play':
+                    if (effect.value === '+1-energy') return '+1 تشاكرا';
+                    if (effect.value === '+1-power-all') return '+1 لجميع بطاقاتك';
+                    return effect.value;
+                
+                case 'destroy':
+                    if (effect.target === 'highest-power') return 'يدمر أقوى بطاقة معادية';
+                    if (effect.target === 'all') return 'يدمر جميع البطاقات المعادية';
+                    return 'يدمر بطاقة معادية';
+                case 'rage-mode':
+                    return `+${effect.value} قوة لمدة دورين`;
+                    
+                case 'draw-card':
+                    return 'يسحب بطاقة إضافية';
+                
+                case 'shield':
+                    return `درع بقوة ${effect.value} نقطة`;
+                
+                case 'copy-effect':
+                    return 'ينسخ تأثير آخر بطاقة تم لعبها';
+                
+                case 'revive':
+                    return 'يعيد بطاقة مدمرة إلى يدك';
+
+                case 'double-attack':
+                    return 'يمكن لهذه البطاقة الهجوم مرتين هذا الدور';
+
+                     case 'attack':
+            return ' يمكن لهذه البطاقة الهجوم مرة هذا الدور';
+
+                
+                case 'stun-opponent':
+                    return 'يذهل الخصم لدور واحد';
+                
+                case 'chakra-drain':
+                    return `يقلل تشاكرا الخصم بمقدار ${effect.value}`;
+                
+                case 'heal':
+                    return `يعالج ${effect.value} نقطة قوة لبطاقاتك`;
+                
+                case 'explosion':
+                    return `يسبب ${effect.value} ضرر لجميع البطاقات المعادية`;
+                
+                case 'poison':
+                    return `يضعف بطاقة معادية بمقدار ${effect.value} كل دور`;
+                
+                case 'immortality':
+                    return 'لا يمكن تدميرها لمدة دور واحد';
+                
+                case 'grow-forest':
+                    return `يقوي بطاقات كونوها بمقدار ${effect.value} قوة`;
+                default:
+                    return 'تأثير خاص فريد';
+            }
+        }
+
+
+
+    // Sélectionner une carte
+    function selectCard(card) {
+      if (gameState.selectedCard === card) {
+        gameState.selectedCard = null;
+        clearZoneSelection();
+      } else {
+        gameState.selectedCard = card;
+        clearZoneSelection();
+        
+        // Mettre en évidence les zones valides
+        for (let i = 0; i < 3; i++) {
+          const zoneElement = document.getElementById(`zone-${i+1}`);
+          zoneElement.style.border = '2px solid var(--naruto-orange)';
+          zoneElement.style.cursor = 'pointer';
+          zoneElement.addEventListener('click', () => playCard(card, i));
+        }
+      }
+if (card.sound) {
+  const voice = new Audio(card.sound);
+  voice.play();
+}
+
+      updateUI();
+    }
+
+    // Effacer la sélection des zones
+    function clearZoneSelection() {
+      for (let i = 0; i < 3; i++) {
+        const zoneElement = document.getElementById(`zone-${i+1}`);
+        zoneElement.style.border = '';
+        zoneElement.style.cursor = '';
+        
+        // Supprimer les écouteurs d'événements existants
+        const newZoneElement = zoneElement.cloneNode(true);
+        zoneElement.parentNode.replaceChild(newZoneElement, zoneElement);
+      }
+    }
+
+    // Jouer une carte
+    function playCard(card, zoneIndex) {
+      if (card.cost > gameState.playerEnergy) {
+        alert("Pas assez de chakra pour jouer cette carte !");
+        return;
+      }
+      
+      // Retirer la carte de la main
+      const cardIndex = gameState.playerHand.findIndex(c => c.id === card.id);
+      if (cardIndex !== -1) {
+        gameState.playerHand.splice(cardIndex, 1);
+        
+        // Ajouter la carte à la zone
+        gameState.playedCards.player[zoneIndex].push(card);
+        
+        // Dépenser l'énergie
+        gameState.playerEnergy -= card.cost;
+        
+        // Appliquer les effets de la carte
+        applyCardEffect(card, zoneIndex, 'player');
+        
+        // Appliquer l'effet de zone
+        applyZoneEffect(zoneIndex, 'player', card);
+        
+        // Recalculer les puissances des zones
+        calculateZonePowers();
+        
+        // Vérifier si le jeu est terminé
+        checkGameEnd();
+        
+        // Réinitialiser la sélection
+        gameState.selectedCard = null;
+        clearZoneSelection();
+        
+        // Mettre à jour l'interface
+        updateUI();
+        
+        // L'IA joue après le joueur (sauf si elle est étourdie)
+        if (!gameState.aiStunned) {
+          setTimeout(playAITurn, 1500);
+        } else {
+          gameState.aiStunned = false;
+        }
+      }
+    }
+
+
+
+    // Appliquer l'effet d'une carte
+    function applyCardEffect(card, zoneIndex, player) {
+  if (!card.effect) return;
+  
+  const isPlayer = player === 'player';
+  const opponent = isPlayer ? 'opponent' : 'player';
+  
+  switch(card.effect.type) {
+    case 'on-play':
+      if (card.effect.value === '+1-energy') {
+        if (isPlayer) {
+          gameState.playerEnergy += 1;
+        }
+      } else if (card.effect.value === '+1-power-all') {
+        // +1 à toutes les cartes du joueur dans toutes les zones
+        for (let i = 0; i < 3; i++) {
+          gameState.playedCards.player[i].forEach(c => {
+            c.power += 1;
+          });
+        }
+      }
+      break;
+      
+    case 'draw-card':
+      if (isPlayer && gameState.playerDeck.length > 0) {
+        gameState.playerHand.push(gameState.playerDeck.pop());
+      } else if (!isPlayer && gameState.opponentDeck.length > 0) {
+        gameState.opponentHand.push(gameState.opponentDeck.pop());
+      }
+      break;
+      
+    case 'destroy':
+      if (card.effect.target === 'highest-power') {
+        destroyHighestPowerCard(opponent);
+      } else if (card.effect.target === 'all') {
+        // Détruire toutes les cartes de l'adversaire
+        for (let i = 0; i < 3; i++) {
+          gameState.playedCards[opponent][i] = [];
+        }
+      }
+      break;
+      
+    case 'stun-opponent':
+      gameState.aiStunned = true;
+      break;
+
+    case 'chakra-drain':
+      // Réduit l'énergie de l'adversaire
+      if (isPlayer) {
+        gameState.playerEnergy = Math.max(0, gameState.playerEnergy - card.effect.value);
+      } else {
+        // Pour l'IA, on simule une réduction d'énergie
+        // (l'IA n'a pas de variable d'énergie séparée dans votre code actuel)
+      }
+      break;
+      
+    case 'heal':
+      // Soigne toutes vos cartes
+      for (let i = 0; i < 3; i++) {
+        gameState.playedCards[player][i].forEach(c => {
+          c.power += card.effect.value;
+        });
+      }
+      break;
+      
+    case 'explosion':
+      // Inflige des dégâts à toutes les cartes adverses
+      for (let i = 0; i < 3; i++) {
+        gameState.playedCards[opponent][i].forEach(c => {
+          c.power = Math.max(0, c.power - card.effect.value);
+        });
+      }
+      break;
+      
+    case 'double-attack':
+      // La carte attaque deux fois (double sa puissance pour ce tour)
+      card.power *= 2;
+      break;
+
+      case 'attack':
+      // La carte attaque une fois (sa puissance pour ce tour)
+      card.power *= 1;
+      break;
+      
+    case 'rage-mode':
+      // Augmente la puissance de la carte
+      card.power += card.effect.value;
+      break;
+      
+    case 'poison':
+      // Réduit la puissance de toutes les cartes adverses
+      for (let i = 0; i < 3; i++) {
+        gameState.playedCards[opponent][i].forEach(c => {
+          c.power = Math.max(0, c.power - card.effect.value);
+        });
+      }
+      break;
+      
+    case 'immortality':
+      // La carte ne peut pas être détruite ce tour
+      card.immortal = true;
+      setTimeout(() => {
+        card.immortal = false;
+      }, 2000);
+      break;
+      
+    case 'revive':
+      // Ramène la dernière carte détruite
+      reviveLastCard(player);
+      break;
+      
+    case 'shield':
+      // Ajoute un bouclier à toutes vos cartes
+      for (let i = 0; i < 3; i++) {
+        gameState.playedCards[player][i].forEach(c => {
+          if (!c.shield) c.shield = 0;
+          c.shield += card.effect.value;
+        });
+      }
+      break;
+      
+    case 'zone-boost':
+      // Applique le boost de zone
+      applyZoneBoost(card.effect.zone, card.effect.value, player);
+      break;
+  }
+}
+
+
+// Détruit la carte la plus puissante de l'adversaire
+function destroyHighestPowerCard(opponent) {
+  let maxPower = -1;
+  let targetZone = -1;
+  let targetIndex = -1;
+  
+  for (let i = 0; i < 3; i++) {
+    gameState.playedCards[opponent][i].forEach((c, index) => {
+      if (c.power > maxPower && !c.immortal) {
+        maxPower = c.power;
+        targetZone = i;
+        targetIndex = index;
+      }
+    });
+  }
+  
+  if (targetZone !== -1 && targetIndex !== -1) {
+    gameState.playedCards[opponent][targetZone].splice(targetIndex, 1);
+  }
+}
+
+// Ramène la dernière carte détruite
+function reviveLastCard(player) {
+  // Implémentation simplifiée - dans un vrai jeu, vous auriez un cimetière
+  const deck = player === 'player' ? gameState.playerDeck : gameState.opponentDeck;
+  const hand = player === 'player' ? gameState.playerHand : gameState.opponentHand;
+  
+  if (deck.length > 0) {
+    const revivedCard = deck[deck.length - 1];
+    hand.push(revivedCard);
+    deck.pop();
+  }
+}
+
+// Applique un boost à une zone spécifique
+function applyZoneBoost(zone, value, player) {
+  const zoneIndex = parseInt(zone.split('-')[1]) - 1;
+  
+  if (zoneIndex >= 0 && zoneIndex < 3) {
+    gameState.playedCards[player][zoneIndex].forEach(card => {
+      card.power += value;
+    });
+  }
+}
+
+    // Appliquer l'effet de zone
+    function applyZoneEffect(zoneIndex, player, card) {
+      const zone = document.getElementById(`zone-${zoneIndex+1}`);
+      const effect = zone.dataset.effect;
+      
+      if (effect === 'boost-power-1') {
+        card.power += 1;
+      } else if (effect === 'bonus-energy' && player === 'player') {
+        gameState.playerEnergy += 1;
+      }
+    }
+
+    // Calculer les puissances des zones
+    function calculateZonePowers() {
+      for (let i = 0; i < 3; i++) {
+        // Calculer la puissance du joueur dans la zone
+        gameState.zonePowers.player[i] = gameState.playedCards.player[i].reduce((total, card) => total + card.power, 0);
+        
+        // Calculer la puissance de l'IA dans la zone
+        gameState.zonePowers.opponent[i] = gameState.playedCards.opponent[i].reduce((total, card) => total + card.power, 0);
+        
+        // Déterminer le contrôle de la zone
+        if (gameState.zonePowers.player[i] > gameState.zonePowers.opponent[i]) {
+          gameState.zoneControl[i] = true;
+        } else if (gameState.zonePowers.player[i] < gameState.zonePowers.opponent[i]) {
+          gameState.zoneControl[i] = false;
+        } else {
+          gameState.zoneControl[i] = null;
+        }
+      }
+    }
+
+    // Vérifier si le jeu est terminé
+    function checkGameEnd() {
+      if (gameState.turn >= gameState.maxTurns) {
+        gameState.gameOver = true;
+        
+        // Compter les zones contrôlées
+        const playerZones = gameState.zoneControl.filter(control => control === true).length;
+        const opponentZones = gameState.zoneControl.filter(control => control === false).length;
+        
+        // Déterminer le gagnant
+        let result, message;
+        if (playerZones >= 2) {
+          result = "انتصار!";
+          message = `داتيبايو! لقد سيطرت على ${playerZones} قرى من أصل 3!`;
+          playSound(soundWin);
+        } else if (opponentZones >= 2) {
+          result = "هزيمة!";
+          message = `العدو سيطر على ${opponentZones} قرى من أصل 3...`;
+          playSound(soundLose);
+        } else {
+          result = "تعادل!";
+          message = "لا يوجد شينوبي يسيطر على قريتين أو أكثر";
+        }
+        
+        // Afficher le modal de fin de jeu
+        document.getElementById('game-result').textContent = result;
+        document.getElementById('game-message').textContent = message;
+        document.getElementById('game-over-modal').style.display = 'flex';
+      }
+    }
+
+    // Tour de l'IA
+    // Tour de l'IA (version améliorée)
+function playAITurn() {
+  if (gameState.gameOver || gameState.aiStunned) return;
+  
+  // L'IA a de l'énergie basée sur le tour
+  const aiEnergy = gameState.turn;
+  let energyUsed = 0;
+  
+  // Trier les cartes par valeur (puissance/coût)
+  const playableCards = gameState.opponentHand.filter(card => card.cost <= aiEnergy - energyUsed);
+  playableCards.sort((a, b) => (b.power / b.cost) - (a.power / b.cost));
+  
+  // Stratégie de l'IA : prioriser les zones où elle est en retard
+  const zonePriorities = getZonePriorities();
+  
+  // Jouer des cartes si possible
+  playableCards.forEach(card => {
+    if (energyUsed + card.cost <= aiEnergy) {
+      // Choisir une zone selon les priorités
+      let zoneIndex = zonePriorities[0];
+      
+      // Si la carte a un effet de zone, essayer de la jouer dans la zone correspondante
+      if (card.effect && card.effect.type === 'zone-boost') {
+        const effectZoneIndex = parseInt(card.effect.zone.split('-')[1]) - 1;
+        if (effectZoneIndex >= 0 && effectZoneIndex < 3) {
+          zoneIndex = effectZoneIndex;
+        }
+      }
+      
+      // Retirer la carte de la main
+      const cardIndex = gameState.opponentHand.findIndex(c => c.id === card.id);
+      if (cardIndex !== -1) {
+        gameState.opponentHand.splice(cardIndex, 1);
+        
+        // Ajouter la carte à la zone
+        gameState.playedCards.opponent[zoneIndex].push(card);
+        
+        // Dépenser l'énergie
+        energyUsed += card.cost;
+        
+        // Appliquer les effets de la carte
+        applyCardEffect(card, zoneIndex, 'opponent');
+        
+        // Jouer le son de la carte IA
+        if (card.sound) {
+          const voice = new Audio(card.sound);
+          voice.volume = 0.7; // Réduire le volume pour l'IA
+          voice.play().catch(e => console.log("AI voice play failed:", e));
+        }
+      }
+    }
+  });
+  
+  // Recalculer les puissances des zones
+  calculateZonePowers();
+  
+  // Mettre à jour l'interface
+  updateUI();
+}
+
+    // Obtenir les priorités de zone pour l'IA
+    function getZonePriorities() {
+      const priorities = [];
+      const powers = [];
+      
+      for (let i = 0; i < 3; i++) {
+        powers.push({
+          zone: i,
+          diff: gameState.zonePowers.opponent[i] - gameState.zonePowers.player[i]
+        });
+      }
+      
+      // Trier par différence de puissance (priorité aux zones où l'IA est en retard)
+      powers.sort((a, b) => a.diff - b.diff);
+      
+      return powers.map(p => p.zone);
+    }
+
+    // Fin du tour
+    function endTurn() {
+      if (gameState.gameOver) return;
+      
+      // Passer au tour suivant
+      gameState.turn++;
+      
+      // Réinitialiser l'énergie du joueur (minimum 1, maximum 6)
+      gameState.playerEnergy = Math.min(gameState.turn, 6);
+      
+      // Piocher une carte si possible
+      if (gameState.playerDeck.length > 0 && gameState.playerHand.length < 6) {
+        gameState.playerHand.push(gameState.playerDeck.pop());
+      }
+      
+      // L'IA pioche une carte si possible
+      if (gameState.opponentDeck.length > 0 && gameState.opponentHand.length < 6) {
+        gameState.opponentHand.push(gameState.opponentDeck.pop());
+      }
+
+      showTurnTip();
+      // Vérifier si le jeu est terminé
+      checkGameEnd();
+      
+      // Mettre à jour l'interface
+      updateUI();
+    }
+
+    // Gestion du drag & drop
+    document.addEventListener('dragstart', function(e) {
+      if (e.target.classList.contains('card') && !e.target.classList.contains('played')) {
+        const cardId = e.target.dataset.cardId;
+        const card = gameState.playerHand.find(c => c.id === cardId);
+        
+        if (card && card.cost <= gameState.playerEnergy) {
+          e.dataTransfer.setData('cardId', cardId);
+        } else {
+          e.preventDefault();
+        }
+      }
+    });
+
+    document.querySelectorAll('.zone').forEach(zone => {
+      zone.addEventListener('dragover', e => {
+        e.preventDefault();
+        zone.style.border = '2px solid var(--naruto-orange)';
+      });
+
+      zone.addEventListener('dragleave', () => {
+        zone.style.border = '';
+      });
+
+      zone.addEventListener('drop', e => {
+        e.preventDefault();
+        const cardId = e.dataTransfer.getData('cardId');
+        const card = gameState.playerHand.find(c => c.id === cardId);
+        const zoneIndex = parseInt(zone.id.split('-')[1]) - 1;
+
+        if (card) {
+          playCard(card, zoneIndex);
+        }
+
+        zone.style.border = '';
+      });
+    });
+
+    // Événements
+    document.getElementById('end-turn-btn').addEventListener('click', endTurn);
+    document.getElementById('restart-btn').addEventListener('click', initGame);
+    document.getElementById('play-again-btn').addEventListener('click', initGame);
+
+    // Initialiser le jeu au chargement
+    window.addEventListener('load', initGame);
+
+
+    // 🔄 Fin de tour automatique
+// 🔄 Fin de tour automatique
+function checkAutoEndTurn() {
+  // Vérifier si le joueur ne peut plus jouer de cartes
+  const playableCards = gameState.playerHand.filter(card => card.cost <= gameState.playerEnergy);
+  
+  // Si aucune carte jouable OU énergie insuffisante pour toutes les cartes
+  if (playableCards.length === 0 || gameState.playerEnergy === 0) {
+    // Attendre un peu pour que le joueur voie son action
+    setTimeout(() => {
+      if (!gameState.gameOver) {
+        endTurn();
+      }
+    }, 2000);
+  }
+}
+
+// Appelez cette fonction après chaque action du joueur
+// Par exemple, à la fin de playCard():
+// checkAutoEndTurn();
+
+// 🎯 Fonction de fin de tour automatique
+function autoEndTurn() {
+  if (gameState.turn >= 6 || gameState.gameOver) return;
+  
+  console.log("Fin de tour automatique déclenchée");
+  
+  // Incrémenter le tour
+  gameState.turn++;
+  
+  // Réinitialiser l'énergie (min 1, max 6)
+  gameState.playerEnergy = Math.min(gameState.turn, 6);
+  
+  // Piocher une carte si possible
+  if (gameState.playerDeck.length > 0 && gameState.playerHand.length < 6) {
+    const nextCard = gameState.playerDeck.pop();
+    gameState.playerHand.push(nextCard);
+  }
+  
+  // L'IA joue son tour
+  aiPlay();
+  
+  // Mettre à jour l'interface
+  updateUI();
+  
+  // Vérifier si la partie est terminée
+  if (gameState.turn === 6) {
+    gameState.gameOver = true;
+    setTimeout(() => {
+      endGame();
+    }, 1000);
+  }
+
+  // 🔄 Fin de tour automatique
+function checkAutoEndTurn() {
+  // Vérifier si le joueur ne peut plus jouer de cartes
+  const playableCards = gameState.playerHand.filter(card => card.cost <= gameState.playerEnergy);
+  
+  // Si aucune carte jouable OU énergie insuffisante pour toutes les cartes
+  if (playableCards.length === 0 || gameState.playerEnergy === 0) {
+    // Attendre un peu pour que le joueur voie son action
+    setTimeout(() => {
+      autoEndTurn();
+    }, 1500);
+  }
+}
+
+// 🔊 Son pour le tour du joueur
+const soundYourTurn = new Audio("data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQQAAAAAAA==");
+
+// 🔔 Notification améliorée avec son
+function showYourTurnNotification() {
+  // Jouer un son (optionnel)
+  playSound(soundYourTurn);
+  
+  // Créer l'élément de notification
+  const notification = document.createElement('div');
+  notification.id = 'your-turn-notification';
+  notification.style.cssText = `
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(90deg, #ff6b00, #ff8c00);
+    color: white;
+    padding: 15px 30px;
+    border-radius: 25px;
+    font-weight: bold;
+    font-size: 1.2rem;
+    z-index: 1000;
+    box-shadow: 0 4px 15px rgba(255, 107, 0, 0.5);
+    border: 2px solid #ffd700;
+    animation: slideInBounce 0.8s ease-out;
+    text-align: center;
+    cursor: pointer;
+  `;
+  notification.innerHTML = '🎯 <strong>À VOTRE TOUR !</strong> Dattebayo!';
+  
+  // Fermer en cliquant
+  notification.addEventListener('click', () => {
+    document.body.removeChild(notification);
+  });
+  
+  // Ajouter au body
+  document.body.appendChild(notification);
+  
+  // Supprimer après 3 secondes
+  setTimeout(() => {
+    if (document.getElementById('your-turn-notification')) {
+      notification.style.animation = 'fadeOut 0.5s ease-out';
+      setTimeout(() => {
+        if (document.body.contains(notification)) {
+          document.body.removeChild(notification);
+        }
+      }, 500);
+    }
+  }, 3000);
+}
+
+// 🎯 Fonction de fin de tour automatique
+function autoEndTurn() {
+  if (gameState.turn >= 6 || gameState.gameOver) return;
+  
+  console.log("Fin de tour automatique déclenchée");
+  
+  // Incrémenter le tour
+  gameState.turn++;
+  
+  // Réinitialiser l'énergie (min 1, max 6)
+  gameState.playerEnergy = Math.min(gameState.turn, 6);
+  
+  // Piocher une carte si possible
+  if (gameState.playerDeck.length > 0 && gameState.playerHand.length < 6) {
+    const nextCard = gameState.playerDeck.pop();
+    gameState.playerHand.push(nextCard);
+  }
+  
+  // L'IA joue son tour
+  aiPlay();
+  
+  // Mettre à jour l'interface
+  updateUI();
+  
+  // Vérifier si la partie est terminée
+  if (gameState.turn === 6) {
+    gameState.gameOver = true;
+    setTimeout(() => {
+      endGame();
+    }, 1000);
+  }
+}
+}
+
+
+// Fonction pour afficher les détails de la carte
+function showCardDetails(card) {
+    // Créer le modal s'il n'existe pas
+    let cardModal = document.getElementById('card-details-modal');
+    
+    if (!cardModal) {
+        cardModal = document.createElement('div');
+        cardModal.id = 'card-details-modal';
+        cardModal.className = 'card-modal';
+        cardModal.innerHTML = `
+            <div class="card-modal-content">
+                <span class="close-modal">&times;</span>
+                <div class="card-modal-image"></div>
+                <div class="card-modal-info">
+                    <h3 class="card-modal-name"></h3>
+                    <div class="card-modal-stats">
+                        <div class="card-stat">
+                            <span class="stat-label">Coût</span>
+                            <span class="stat-value cost"></span>
+                        </div>
+                        <div class="card-stat">
+                            <span class="stat-label">Puissance</span>
+                            <span class="stat-value power"></span>
+                        </div>
+                        <div class="card-stat">
+                            <span class="stat-label">Rareté</span>
+                            <span class="stat-value rarity"></span>
+                        </div>
+                    </div>
+                    <div class="card-modal-effect">
+                        <h4>Effet spécial</h4>
+                        <p class="effect-description"></p>
+                    </div>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(cardModal);
+        
+        // Fermer le modal en cliquant sur la croix
+        cardModal.querySelector('.close-modal').addEventListener('click', function() {
+            cardModal.style.display = 'none';
+        });
+        
+        // Fermer le modal en cliquant en dehors
+        cardModal.addEventListener('click', function(e) {
+            if (e.target === cardModal) {
+                cardModal.style.display = 'none';
+            }
+        });
+    }
+    
+    // Remplir les informations de la carte
+    const modalContent = cardModal.querySelector('.card-modal-content');
+    cardModal.querySelector('.card-modal-name').textContent = card.name;
+    cardModal.querySelector('.card-modal-image').style.backgroundImage = `url(${card.image || fallbackImages[card.id] || 'https://i.imgur.com/8Qm7Q9a.png'})`;
+    cardModal.querySelector('.cost').textContent = card.cost;
+    cardModal.querySelector('.power').textContent = card.power;
+    cardModal.querySelector('.rarity').textContent = getRarityName(card.rarity);
+    cardModal.querySelector('.effect-description').textContent = getEffectDescription(card.effect);
+    
+    // Appliquer la couleur de rareté
+    const rarityElement = cardModal.querySelector('.rarity');
+    rarityElement.className = 'stat-value rarity ' + card.rarity;
+    
+    // Afficher le modal
+    cardModal.style.display = 'flex';
+    
+    // Animation d'entrée
+    setTimeout(() => {
+        modalContent.style.transform = 'scale(1)';
+        modalContent.style.opacity = '1';
+    }, 10);
+}
+
+// Fonction pour obtenir le nom de la rareté
+ function getRarityName(rarity) {
+            const rarityNames = {
+                'common': 'شائعة',
+                'rare': 'نادرة',
+                'epic': 'ملحمية',
+                'legendary': 'أسطورية'
+            };
+            return rarityNames[rarity] || 'شائعة';
+        }
+
+// Fonction pour obtenir la description détaillée de l'effet
+// function getEffectDescription(effect) {
+//     if (!effect) return 'Aucun effet spécial';
+    
+//     switch(effect.type) {
+//         case 'zone-boost':
+//             const zoneName = effect.zone === 'zone-1' ? 'Konoha' : 
+//                            effect.zone === 'zone-2' ? 'Suna' : 'Kiri';
+//             return `Augmente la puissance de ${effect.value} point(s) dans le village de ${zoneName}`;
+            
+//         case 'on-play':
+//             if (effect.value === '+1-energy') return 'Donne +1 point de Chakra supplémentaire';
+//             if (effect.value === '+1-power-all') return 'Augmente de +1 la puissance de toutes vos cartes sur le terrain';
+//             return effect.value;
+            
+//         case 'destroy':
+//             if (effect.target === 'highest-power') return 'Détruit la carte adverse avec la puissance la plus élevée';
+//             if (effect.target === 'all') return 'Détruit toutes les cartes adverses sur le terrain';
+//             return 'Détruit une carte adverse';
+            
+//         case 'draw-card':
+//             return 'Vous permet de piocher une carte supplémentaire';
+            
+//         case 'shield':
+//             return `Confère un bouclier de ${effect.value} point(s) à vos cartes`;
+            
+//         case 'copy-effect':
+//             return 'Copie l\'effet de la dernière carte jouée par l\'adversaire';
+            
+//         case 'movement':
+//             return 'Permet de déplacer une carte vers une autre zone';
+            
+//         case 'stun-opponent':
+//             return 'Étourdi l\'adversaire, l\'empêchant de jouer au prochain tour';
+            
+//         default:
+//             return 'Effet spécial unique';
+//     }
+// }
+
+// Modifier la fonction createCardElement pour ajouter le clic
+function createCardElement(card, owner) {
+    const cardElement = document.createElement('div');
+    cardElement.className = `card ${owner}-card rarity-${card.rarity}`;
+    cardElement.dataset.cardId = card.id;
+    cardElement.draggable = true;
+    
+    const imageUrl = card.image || fallbackImages[card.id] || 'https://i.imgur.com/8Qm7Q9a.png';
+    cardElement.style.backgroundImage = `url(${imageUrl})`;
+    
+    cardElement.innerHTML = `
+        <div class="card-cost">${card.cost}</div>
+        <div class="card-name">${card.name}</div>
+        <div class="card-effect">${getEffectDescription(card.effect)}</div>
+        <div class="card-power">${card.power}</div>
+    `;
+    
+    // Ajouter l'événement de clic pour voir les détails
+    cardElement.addEventListener('click', function(e) {
+        // Empêcher la propagation si la carte est jouable
+        if (card.cost <= gameState.playerEnergy && owner === 'player' && !cardElement.classList.contains('played')) {
+            return; // Laisser le drag & drop gérer le jeu de la carte
+        }
+        
+        // Sinon, afficher les détails
+        showCardDetails(card);
+        e.stopPropagation();
+    });
+    
+    // Double-clic pour les détails rapides
+    cardElement.addEventListener('dblclick', function(e) {
+        showCardDetails(card);
+        e.stopPropagation();
+    });
+    
+    return cardElement;
+}
+
+// Ajouter ces styles CSS
+const cardModalStyles = `
+<style>
+.card-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 2000;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(10px);
+    animation: modalFadeIn 0.3s ease;
+}
+
+.card-modal-content {
+    background: linear-gradient(135deg, #0c1445 0%, #1a1a2e 100%);
+    border-radius: 20px;
+    width: 90%;
+    max-width: 500px;
+    border: 3px solid var(--naruto-orange);
+    box-shadow: 0 20px 60px rgba(255, 107, 0, 0.4);
+    display: flex;
+    overflow: hidden;
+    transform: scale(0.9);
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+}
+
+.close-modal {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 2rem;
+    color: white;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.3s ease;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(255, 107, 0, 0.3);
+}
+
+.close-modal:hover {
+    background: rgba(255, 107, 0, 0.6);
+    transform: scale(1.1);
+}
+
+.card-modal-image {
+    width: 40%;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+.card-modal-image::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.card-modal-info {
+    width: 60%;
+    padding: 30px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.card-modal-name {
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: #ffd700;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.card-modal-stats {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.card-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 10px;
+    border-radius: 10px;
+    flex: 1;
+}
+
+.stat-label {
+    font-size: 0.8rem;
+    color: #a0a0a0;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.stat-value {
+    font-size: 1.4rem;
+    font-weight: 900;
+}
+
+.stat-value.cost {
+    color: #ff6b00;
+}
+
+.stat-value.power {
+    color: #4cc9f0;
+}
+
+.stat-value.rarity.common {
+    color: silver;
+}
+
+.stat-value.rarity.rare {
+    color: #007bff;
+}
+
+.stat-value.rarity.epic {
+    color: #ff00ff;
+}
+
+.stat-value.rarity.legendary {
+    color: #ffd700;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+.card-modal-effect {
+    background: rgba(255, 107, 0, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+    border-left: 3px solid #ff6b00;
+}
+
+.card-modal-effect h4 {
+    color: #ffd700;
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+}
+
+.effect-description {
+    line-height: 1.5;
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* Animation pour l'apparition du modal */
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .card-modal-content {
+        flex-direction: column;
+        max-width: 90%;
+    }
+    
+    .card-modal-image {
+        width: 100%;
+        height: 200px;
+    }
+    
+    .card-modal-info {
+        width: 100%;
+        padding: 20px;
+    }
+    
+    .card-modal-name {
+        font-size: 1.5rem;
+    }
+    
+    .card-modal-stats {
+        gap: 10px;
+    }
+    
+    .stat-value {
+        font-size: 1.2rem;
+    }
+}
+
+/* Effet de hover sur les cartes pour indiquer qu'elles sont cliquables */
+.card {
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px) scale(1.02);
+}
+
+.card:active {
+    transform: translateY(-2px) scale(1.01);
+}
+</style>
+`;
+
+// Injecter les styles dans la page
+document.head.insertAdjacentHTML('beforeend', cardModalStyles);
+
+
+ function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 50;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 15 + 's';
+                particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Initialiser les particules
+        createParticles();
+
+        // Gérer le bouton de démarrage
+        document.getElementById('start-btn').addEventListener('click', function() {
+            const introScreen = document.getElementById('intro-screen');
+            const gameScreen = document.getElementById('game-screen');
+            
+            // Animation de sortie
+            introScreen.classList.add('fade-out');
+            
+            // Après l'animation, cacher l'intro et afficher le jeu
+            setTimeout(() => {
+                introScreen.style.display = 'none';
+                gameScreen.classList.add('active');
+                
+                // Démarrer votre jeu ici
+                // initGame(); // Appelez votre fonction d'initialisation
+            }, 1000);
+        });
+
+        // Animation au survol du bouton
+        const startBtn = document.getElementById('start-btn');
+        startBtn.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-5px) scale(1.05)';
+        });
+
+        startBtn.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0) scale(1)';
+        });
+
+// FONCTION POUR CHANGER DE LANGUE
+function changeLanguage(lang) {
+    switch(lang) {
+        case 'fr':
+            window.location.href = 'index.html';
+            break;
+        case 'en':
+            window.location.href = 'index-en.html';
+            break;
+        case 'ar':
+            window.location.href = 'index-ar.html';
+            break;
+        default:
+            window.location.href = 'index.html';
+    }
+}
+
+// Optionnel: Sauvegarder la préférence de langue
+function saveLanguagePreference(lang) {
+    localStorage.setItem('preferredLanguage', lang);
+}
+
+// Optionnel: Charger la langue préférée au démarrage
+function loadLanguagePreference() {
+    const savedLang = localStorage.getItem('preferredLanguage');
+    if (savedLang && !window.location.href.includes(savedLang)) {
+        changeLanguage(savedLang);
+    }
+}
+
+// Appeler au chargement de la page
+window.addEventListener('load', function() {
+    // Mettre à jour les boutons en fonction de la page actuelle
+    updateLanguageButtons();
+});
+
+function updateLanguageButtons() {
+    const currentPage = window.location.pathname;
+    const langButtons = document.querySelectorAll('.lang-btn');
+    
+    langButtons.forEach(button => {
+        // Désactiver le bouton de la langue actuelle
+        if ((currentPage.includes('index.html') && button.textContent.includes('Français')) ||
+            (currentPage.includes('index-en.html') && button.textContent.includes('English')) ||
+            (currentPage.includes('index-ar.html') && button.textContent.includes('العربية'))) {
+            button.style.opacity = '0.6';
+            button.style.cursor = 'not-allowed';
+            button.disabled = true;
+        }
+    });
+}
+
+
+// Fonction pour piocher une main équilibrée
+function drawBalancedHand() {
+  gameState.playerHand = [];
+  gameState.opponentHand = [];
+  
+  // Piocher 4 cartes avec au moins 2 cartes de coût 1-2
+  let playerLowCostCards = 0;
+  let opponentLowCostCards = 0;
+  
+  for (let i = 0; i < 4; i++) {
+    if (gameState.playerDeck.length > 0) {
+      const card = gameState.playerDeck.pop();
+      gameState.playerHand.push(card);
+      if (card.cost <= 2) playerLowCostCards++;
+    }
+    
+    if (gameState.opponentDeck.length > 0) {
+      const card = gameState.opponentDeck.pop();
+      gameState.opponentHand.push(card);
+      if (card.cost <= 2) opponentLowCostCards++;
+    }
+  }
+  
+  // Si pas assez de cartes peu coûteuses, repiocher
+  if (playerLowCostCards < 2) {
+    redistributeHand('player');
+  }
+  if (opponentLowCostCards < 2) {
+    redistributeHand('opponent');
+  }
+}
+
+// Redistribuer une main pour avoir plus de cartes jouables
+function redistributeHand(player) {
+  const deck = player === 'player' ? gameState.playerDeck : gameState.opponentDeck;
+  const hand = player === 'player' ? gameState.playerHand : gameState.opponentHand;
+  
+  // Remettre les cartes dans le deck et mélanger
+  deck.push(...hand);
+  hand.length = 0;
+  shuffle(deck);
+  
+  // Repiocher en priorisant les cartes peu coûteuses
+  let lowCostCards = 0;
+  for (let i = 0; i < 4 && deck.length > 0; i++) {
+    // Chercher une carte de coût 1-2 d'abord
+    if (lowCostCards < 2) {
+      const lowCostIndex = deck.findIndex(card => card.cost <= 2);
+      if (lowCostIndex !== -1) {
+        hand.push(deck.splice(lowCostIndex, 1)[0]);
+        lowCostCards++;
+        continue;
+      }
+    }
+    
+    // Sinon prendre n'importe quelle carte
+    hand.push(deck.pop());
+  }
+}
+    </script>
+
+</body>
+
+</html>

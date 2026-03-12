@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clients & Fournisseurs - IT Services Management</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+
+<body>
+    <div class="main-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-code"></i>
+                    <span>IT Services Pro</span>
+                </div>
+            </div>
+
+            <nav class="sidebar-menu">
+                <a href="dashboard.html" class="menu-item">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="clients.html" class="menu-item active">
+                    <i class="fas fa-users"></i>
+                    <span>Clients & Fournisseurs</span>
+                </a>
+                <a href="projects.html" class="menu-item">
+                    <i class="fas fa-project-diagram"></i>
+                    <span>Projets</span>
+                </a>
+                <a href="services.html" class="menu-item">
+                    <i class="fas fa-cogs"></i>
+                    <span>Services</span>
+                </a>
+                <a href="tickets.html" class="menu-item">
+                    <i class="fas fa-ticket-alt"></i>
+                    <span>Tickets</span>
+                </a>
+                <a href="tasks.html" class="menu-item">
+                    <i class="fas fa-tasks"></i>
+                    <span>Tâches</span>
+                </a>
+                <a href="billing.html" class="menu-item">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                    <span>Facturation</span>
+                </a>
+                <a href="purchases.html" class="menu-item">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Achats/Ventes</span>
+                </a>
+
+                <div class="menu-divider"></div>
+
+                <a href="#" class="menu-item" id="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Déconnexion</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <div class="header-left">
+                    <button class="menu-toggle" id="menu-toggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <div class="breadcrumb">
+                        <span>Clients & Fournisseurs</span>
+                    </div>
+                </div>
+
+                <div class="header-right">
+                    <div class="user-info">
+                        <div class="avatar" id="user-avatar">JD</div>
+                        <div class="user-details">
+                            <span class="user-name" id="user-name">John Doe</span>
+                            <span class="user-role" id="user-role">Admin</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Page Content -->
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">Clients & Fournisseurs</h1>
+                    <p class="page-subtitle">Gérez vos clients et fournisseurs</p>
+                </div>
+                <div class="page-actions">
+                    <button class="btn btn-primary" onclick="clients.openClientModal()">
+                        <i class="fas fa-plus"></i> Nouveau Client
+                    </button>
+                    <button class="btn btn-secondary" onclick="clients.openSupplierModal()">
+                        <i class="fas fa-truck"></i> Nouveau Fournisseur
+                    </button>
+                </div>
+            </div>
+
+            <!-- Stats -->
+            <div class="stats-grid" id="clients-stats">
+                <!-- Les stats seront chargées par JavaScript -->
+            </div>
+
+            <!-- Search and Filter -->
+            <div class="search-filter">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="clientSearch" placeholder="Rechercher clients...">
+                </div>
+                <select class="filter-select" id="clientFilter">
+                    <option value="all">Tous les statuts</option>
+                    <option value="active">Actifs uniquement</option>
+                    <option value="inactive">Inactifs uniquement</option>
+                </select>
+            </div>
+
+            <!-- Tabs -->
+            <div class="tabs">
+                <button class="tab active" data-tab="clients">Clients</button>
+                <button class="tab" data-tab="suppliers">Fournisseurs</button>
+            </div>
+
+            <!-- Clients Tab -->
+            <div class="tab-content active" id="clients-tab">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-container">
+                            <table id="clients-table">
+                                <thead>
+                                    <tr>
+                                        <th>Entreprise</th>
+                                        <th>Contact</th>
+                                        <th>Email</th>
+                                        <th>Téléphone</th>
+                                        <th>Projets</th>
+                                        <th>Statut</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Données chargées par JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Suppliers Tab -->
+            <div class="tab-content" id="suppliers-tab">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-container">
+                            <table id="suppliers-table">
+                                <thead>
+                                    <tr>
+                                        <th>Entreprise</th>
+                                        <th>Contact</th>
+                                        <th>Services</th>
+                                        <th>Évaluation</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Données chargées par JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="js/google-sheets.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/clients.js"></script>
+</body>
+
+</html>
